@@ -57,14 +57,14 @@ int main(void)
             }
 
             // Min SAD value found
-            min_SAD_vals[x_first, y_first, 0] = min_SAD;
+            min_SAD_vals[x_first][y_first][0] = min_SAD;
             // r for the block with the min SAD value
-            min_SAD_vals[x_first, y_first, 1] = min_x - x_first;
+            min_SAD_vals[x_first][y_first][1] = min_x - x_first;
             // s for the block with the min SAD value
-            min_SAD_vals[x_first, y_first, 2] = min_y - y_first;
+            min_SAD_vals[x_first][y_first][2] = min_y - y_first;
 
             // Print the r and s corresponding to the smallest SAD for image_first[x_first][y_first] block
-            printf("block [%i][%i] has motion vector (%i, %i)\n", x_first, y_first, min_SAD_vals[x_first, y_first, 1], min_SAD_vals[x_first, y_first, 2]);
+            printf("block [%i][%i] has motion vector (%i, %i)\n", x_first, y_first, min_SAD_vals[x_first][y_first][0], min_SAD_vals[x_first][y_first][2]);
             /*
                 --- may need a better way to print (r,s) values
             */
