@@ -64,11 +64,10 @@ int main(void)
             min_SAD_vals[x_first][y_first][2] = min_y - y_first;
 
             // Print the r and s corresponding to the smallest SAD for image_first[x_first][y_first] block
-            printf("block [%i][%i] has motion vector (%i, %i)\n", x_first, y_first, min_SAD_vals[x_first][y_first][0], min_SAD_vals[x_first][y_first][2]);
+            printf("block [%i][%i] has motion vector (%i, %i)\n", x_first, y_first, min_SAD_vals[x_first][y_first][1], min_SAD_vals[x_first][y_first][2]);
             /*
                 --- may need a better way to print (r,s) values
             */
         }
     }
-
 }
