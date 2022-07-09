@@ -35,6 +35,8 @@ void readImage(char filename[], uint32_t pixels[HEIGHT][WIDTH])
     fclose(bmp);
 }
 
+
+
 int main(void)
 {
     uint32_t image_first[HEIGHT][WIDTH];
@@ -56,17 +58,24 @@ int main(void)
             int min_x, min_y = -1;
 
             // For each 16x16 block in second image
-            for (int y_second =0; y_second < 15; y_second++)
+            for (int y_second = 0; y_second < 15; y_second++)
             {
                 for (int x_second = 0; x_second < 20; x_second++)
                 {
                     // Calculate SAD value for pair of image_second[x_second][y_second] and image_first[x_first][y_first]
                     int SAD_temp = 0;
-                    for (int y = 0; y <16; y++)
+                    int temp_x = 0;
+                    int temp_y = 0;
+
+                    int temp_image_first = image_first[x_first + temp_x][y_first + temp_y];
+                    int temp_image_second = image_second[x_second + temp_x][y_second + temp_y];
+
+                    for (int y = 0; y < 16; y++)
                     {
-                        for (int x = 0; x < 16; x++)
+                        for (int x = 0; x < 15; x++)
                         {
-                            int diff = image_second[x_second + x][y_second + y] - image_first[x_first + x][y_first + y];
+                            //int diff = image_second[x_second + x][y_second + y] - image_first[x_first + x][y_first + y];
+                            int diff = temp_image_second - temp_image_first;
                             if (diff < 0)
                             {
                                 SAD_temp -= diff;
@@ -75,6 +84,31 @@ int main(void)
                             {
                                 SAD_temp += diff;
                             }
+
+                            temp_x += 1;
+                            temp_image_first = image_first[x_first + temp_x][y_first + temp_y];
+                            temp_image_second = image_second[x_second + temp_x][y_second + temp_y];
+                        }
+
+                        // Do the last diff for temp_x = 15
+                        int diff = temp_image_second - temp_image_first;
+                        if (diff < 0)
+                        {
+                            SAD_temp -= diff;
+                        }
+                        else
+                        {
+                            SAD_temp += diff;
+                        }
+
+                        temp_x = 0;
+                        temp_y += 1;
+
+                        // Calc image_first and image_second using new y
+                        if(temp_y < 16)
+                        {
+                            temp_image_first = image_first[x_first + temp_x][y_first + temp_y];
+                            temp_image_second = image_second[x_second + temp_x][y_second + temp_y];
                         }
                     }
 
