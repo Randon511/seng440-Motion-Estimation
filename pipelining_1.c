@@ -1,3 +1,6 @@
+/*
+This code contains software pipelining for both x of SAD calculation
+*/
 #include <stdio.h>
 #include <stdint.h>
 // Maximum value for an integer
@@ -51,6 +54,15 @@ int main(void)
     // For each 16x16 block in first image
     for (y_first = 0; y_first < 15; y_first++)
     {
+        // limit the search y-range to vicinity 4 blocks
+        int y_upper = 15;
+        int y_lower = 0;
+        if (y_first - 2 > 0 ){
+            y_lower = y_first - 2;
+        }
+        if (y_first + 2 < 15) {
+            y_upper = y_first + 2;
+        }
         for (x_first = 0; x_first < 20; x_first++)
         { 
             // Min SAD value for the current block
@@ -58,10 +70,19 @@ int main(void)
             // Block with the associated min SAD value
             int min_x, min_y = -1;
             int y_second, x_second;
+            // limit the search x-range to vicinity 4 blocks
+            int x_upper = 20;
+            int x_lower = 0;
+            if (x_first - 2 > 0){
+                x_lower = x_first - 2;
+            }
+            if (x_first + 2 < 15){
+                x_upper = x_first + 2;
+            }
             // For each 16x16 block in second image
-            for (y_second = 0; y_second < 15; y_second++)
+            for (y_second = y_lower; y_second < y_upper; y_second++)
             {
-                for (x_second = 0; x_second < 20; x_second++)
+                for (x_second = x_lower; x_second < x_upper; x_second++)
                 {
                     // Calculate SAD value for pair of image_second[x_second][y_second] and image_first[x_first][y_first]
                     int SAD_temp = 0;
@@ -70,7 +91,7 @@ int main(void)
 
                     int temp_image_first = image_first[x_first + temp_x][y_first + temp_y];
                     int temp_image_second = image_second[x_second + temp_x][y_second + temp_y];
-                    for y,x;
+                    int y,x;
                     for (y = 0; y < 16; y++)
                     {
                         for (x = 0; x < 15; x++)
