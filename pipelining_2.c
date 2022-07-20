@@ -57,11 +57,11 @@ int main(void)
         // limit the search y-range to vicinity 4 blocks
         int y_upper = 15;
         int y_lower = 0;
-        if (y_first - 2 > 0 ){
-            y_lower = y_first - 2;
+        if (y_first - 4 > 0 ){
+            y_lower = y_first - 4;
         }
-        if (y_first + 2 < 15) {
-            y_upper = y_first + 2;
+        if (y_first + 4 < 15) {
+            y_upper = y_first + 4;
         }
         for (x_first = 0; x_first < 20; x_first++)
         { 
@@ -73,13 +73,12 @@ int main(void)
             // limit the search x-range to vicinity 4 blocks
             int x_upper = 20;
             int x_lower = 0;
-            if (x_first - 2 > 0){
-                x_lower = x_first - 2;
+            if (x_first - 4 > 0){
+                x_lower = x_first - 4;
             }
-            if (x_first + 2 < 15){
-                x_upper = x_first + 2;
+            if (x_first + 4 < 20){
+                x_upper = x_first + 4;
             }
-            // For each 16x16 block in second image
             for (y_second = y_lower; y_second < y_upper; y_second++)
             {
                 for (x_second = x_lower; x_second < x_upper; x_second++)
@@ -122,7 +121,6 @@ int main(void)
                         y += 1;
                         temp_image_first = image_first[x_first][y_first + y];
                         temp_image_second = image_second[x_second][y_second + y];
-
                     }
                     // Do the last diff for y = 15
                     int x = 0;
