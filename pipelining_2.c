@@ -32,14 +32,12 @@ void readImage(char filename[], uint32_t pixels[HEIGHT][WIDTH])
         for (j = 0; j < WIDTH; j++)
         {
             // save only RGB part, discard Alpha part
-            fseek(bmp, dataOffset+(i*paddedRowSize) + j*bytesPerPixel, SEEK_SET);
+            fseek(bmp, dataOffset+(i*paddedRowSize) + j*bytesPerPixel+1, SEEK_SET);
             fread(&pixels[HEIGHT-1-i][j], 1, bytesPerPixel - 1, bmp);
         }
     }
     fclose(bmp);
 }
-
-
 
 int main(void)
 {
@@ -53,7 +51,9 @@ int main(void)
     // For each 16x16 block in first image
     for (y_first = 0; y_first < 15; y_first++)
     {
-        int y_first_pixel = y_first*16;
+        // Y index of the first pixel in the first block
+        int y_first_pixel = y_first * 16;
+
         // limit the search y-range to vicinity 4 blocks
         int y_upper = 15;
         int y_lower = 0;
@@ -63,14 +63,12 @@ int main(void)
         if (y_first + 4 < 15) {
             y_upper = y_first + 4;
         }
+
         for (x_first = 0; x_first < 20; x_first++)
         { 
-            int x_first_pixel = x_first*16;
-            // Min SAD value for the current block
-            int min_SAD = INT_MAX;
-            // Block with the associated min SAD value
-            int min_x, min_y = -1;
-            int y_second, x_second;
+            // X index of the first pixel in the first block
+            int x_first_pixel = x_first * 16;
+
             // limit the search x-range to vicinity 4 blocks
             int x_upper = 20;
             int x_lower = 0;
@@ -80,17 +78,28 @@ int main(void)
             if (x_first + 4 < 20){
                 x_upper = x_first + 4;
             }
+
+            // Min SAD value for the current block
+            int min_SAD = INT_MAX;
+            // Block with the associated min SAD value
+            int min_x, min_y = -1;
+            
+            int y_second, x_second;
             // for each 16x16 block in second iamge within vicinity 4 blocks from block of first image
             for (y_second = y_lower; y_second < y_upper; y_second++)
             {
+                // Y index of the first pixel in the second block
                 int y_second_pixel = y_second * 16;
                 for (x_second = x_lower; x_second < x_upper; x_second++)
                 {
-                    int x_second_pixel = x_second
+                    // X index of the first pixel in the second block
+                    int x_second_pixel = x_second * 16;
+                    
                     // Calculate SAD value for pair of image_second[x_second_pixel][y_second_pixel] and image_first[x_first_pixel][y_first_pixel]
                     int SAD_temp = 0;
-                    int temp_image_first = image_first[x_first_pixel][y_first_pixel];
-                    int temp_image_second = image_second[x_second_pixel][y_second_pixel];
+                    int temp_image_first = image_first[y_first_pixel][x_first_pixel];
+                    int temp_image_second = image_second[y_second_pixel][x_second_pixel];
+
                     int y = 0;
                     while (y != 15)
                     {
@@ -98,6 +107,7 @@ int main(void)
                         while (x != 15)
                         {
                             int diff = temp_image_second - temp_image_first;
+
                             if (diff < 0)
                             {
                                 SAD_temp -= diff;
@@ -108,8 +118,8 @@ int main(void)
                             }
 
                             x += 1;
-                            temp_image_first = image_first[x_first_pixel + x][y_first_pixel + y];
-                            temp_image_second = image_second[x_second_pixel + x][y_second_pixel + y];
+                            temp_image_first = image_first[y_first_pixel + y][x_first_pixel + x];
+                            temp_image_second = image_second[y_second_pixel + y][x_second_pixel + x];
                         }
 
                         // Do the last diff for x = 15
@@ -122,9 +132,10 @@ int main(void)
                         {
                             SAD_temp += diff;
                         }
+            
                         y += 1;
-                        temp_image_first = image_first[x_first_pixel][y_first_pixel + y];
-                        temp_image_second = image_second[x_second_pixel][y_second_pixel + y];
+                        temp_image_first = image_first[y_first_pixel + y][x_first_pixel];
+                        temp_image_second = image_second[y_second_pixel + y][x_second_pixel];
                     }
                     // Do the last diff for y = 15
                     int x = 0;
@@ -139,10 +150,10 @@ int main(void)
                         {
                             SAD_temp += diff;
                         }
-
+                        
                         x += 1;
-                        temp_image_first = image_first[x_first_pixel + x][y_first_pixel + y];
-                        temp_image_second = image_second[x_second_pixel + x][y_second_pixel + y];
+                        temp_image_first = image_first[y_first_pixel + y][x_first_pixel + x];
+                        temp_image_second = image_second[y_second_pixel + y][x_second_pixel + x];
                     }
                     // Do the last diff for x = 15
                     int diff = temp_image_second - temp_image_first;
