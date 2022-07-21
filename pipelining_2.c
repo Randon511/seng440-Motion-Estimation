@@ -12,7 +12,7 @@ This code contains software pipelining for both y and x of SAD calculation
 #define DATA_OFFSET_OFFSET 0x000A
 
 
-void readImage(char filename[], uint32_t pixels[HEIGHT][WIDTH])
+void readImage(char filename[], uint8_t pixels[HEIGHT][WIDTH])
 {
     FILE *bmp = fopen(filename, "rb");
     // find pixel data offset
@@ -23,6 +23,7 @@ void readImage(char filename[], uint32_t pixels[HEIGHT][WIDTH])
     uint32_t bitsPerPixel;
     fseek(bmp, BITS_PER_PIXEL_OFFSET, SEEK_SET);
     fread(&bitsPerPixel, 2, 1, bmp);
+    printf("%s: %d\n", filename, bitsPerPixel);
     uint32_t bytesPerPixel = bitsPerPixel / 8;
     uint32_t paddedRowSize = WIDTH * bytesPerPixel;
     // save pixel data to array
@@ -32,8 +33,8 @@ void readImage(char filename[], uint32_t pixels[HEIGHT][WIDTH])
         for (j = 0; j < WIDTH; j++)
         {
             // save only RGB part, discard Alpha part
-            fseek(bmp, dataOffset+(i*paddedRowSize) + j*bytesPerPixel+1, SEEK_SET);
-            fread(&pixels[HEIGHT-1-i][j], 1, bytesPerPixel - 1, bmp);
+            fseek(bmp, dataOffset+(i*paddedRowSize) + j*bytesPerPixel, SEEK_SET);
+            fread(&pixels[HEIGHT-1-i][j], 1, 1, bmp);
         }
     }
     fclose(bmp);
@@ -41,11 +42,10 @@ void readImage(char filename[], uint32_t pixels[HEIGHT][WIDTH])
 
 int main(void)
 {
-    uint32_t image_first[HEIGHT][WIDTH];
-    uint32_t image_second[HEIGHT][WIDTH];
+    uint8_t image_first[HEIGHT][WIDTH];
+    uint8_t image_second[HEIGHT][WIDTH];
     readImage("frame_1.bmp", image_first);
     readImage("frame_2.bmp", image_second);
-    
     int min_SAD_vals[15][20][3] = {};
     int y_first, x_first;
     // For each 16x16 block in first image
