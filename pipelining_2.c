@@ -32,8 +32,8 @@ void readImage(char filename[], uint32_t pixels[HEIGHT][WIDTH])
         for (j = 0; j < WIDTH; j++)
         {
             // save only RGB part, discard Alpha part
-            fseek(bmp, dataOffset+(i*paddedRowSize) + j*bytesPerPixel + 1, SEEK_SET);
-            fread(&pixels[i][j], 1, bytesPerPixel - 1, bmp);
+            fseek(bmp, dataOffset+(i*paddedRowSize) + j*bytesPerPixel, SEEK_SET);
+            fread(&pixels[HEIGHT-1-i][j], 1, bytesPerPixel - 1, bmp);
         }
     }
     fclose(bmp);
@@ -47,7 +47,6 @@ int main(void)
     uint32_t image_second[HEIGHT][WIDTH];
     readImage("frame_1.bmp", image_first);
     readImage("frame_2.bmp", image_second);
-    // printf("%08jx and %08jx ", image_first[0][0], image_second[0][0]);
     
     int min_SAD_vals[15][20][3] = {};
     int y_first, x_first;

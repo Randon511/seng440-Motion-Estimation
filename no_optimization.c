@@ -32,8 +32,8 @@ void readImage(char filename[], uint32_t pixels[HEIGHT][WIDTH])
         for (j = 0; j < WIDTH; j++)
         {
             // save only RGB part, discard Alpha part
-            fseek(bmp, dataOffset+(i*paddedRowSize) + j*bytesPerPixel + 1, SEEK_SET);
-            fread(&pixels[i][j], 1, bytesPerPixel - 1, bmp);
+            fseek(bmp, dataOffset+(i*paddedRowSize) + j*bytesPerPixel, SEEK_SET);
+            fread(&pixels[HEIGHT-1-i][j], 1, bytesPerPixel - 1, bmp);
         }
     }
     fclose(bmp);
