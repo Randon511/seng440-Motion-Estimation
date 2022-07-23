@@ -1,16 +1,16 @@
 /*
 This code contains software pipelining for both y and x of SAD calculation
 */
+
 #include <stdio.h>
 #include <stdint.h>
+#include <limits.h>
 // Maximum value for an integer
-#define INT_MAX 2147483647
 #define WIDTH 320
 #define HEIGHT 240
 
 #define BITS_PER_PIXEL_OFFSET 0x001C
 #define DATA_OFFSET_OFFSET 0x000A
-
 
 void readImage(char filename[], uint32_t pixels[HEIGHT][WIDTH])
 {
@@ -39,12 +39,79 @@ void readImage(char filename[], uint32_t pixels[HEIGHT][WIDTH])
     fclose(bmp);
 }
 
+int calc_block_diff(int x_first_pixel, int y_first_pixel, int x_second_pixel, int y_second_pixel, uint32_t image_first[HEIGHT][WIDTH], uint32_t image_second[HEIGHT][WIDTH])
+{
+    int SAD_temp = 0;
+    int temp_image_first = image_first[y_first_pixel][x_first_pixel];
+    int temp_image_second = image_second[y_second_pixel][x_second_pixel];
+
+    int y = 0;
+    while (y != 15)
+    {
+        int x = 0;
+        while (x != 15)
+        {
+            int diff = temp_image_second - temp_image_first;
+            
+            // Calculate absolute value without using branches
+            //http://www.graphics.stanford.edu/~seander/bithacks.html#IntegerAbs
+            uint32_t abs_diff;
+            int const mask = (diff) >> (sizeof(int) * CHAR_BIT - 1);
+            abs_diff = (diff + mask) ^ mask;
+            SAD_temp += abs_diff;
+
+            x += 1;
+            temp_image_first = image_first[y_first_pixel + y][x_first_pixel + x];
+            temp_image_second = image_second[y_second_pixel + y][x_second_pixel + x];
+        }
+
+        // Do the last diff for x = 15
+        int diff = temp_image_second - temp_image_first;
+        if (diff < 0)
+        {
+            SAD_temp -= diff;
+        }
+        else
+        {
+            SAD_temp += diff;
+        }
+
+        y += 1;
+        temp_image_first = image_first[y_first_pixel + y][x_first_pixel];
+        temp_image_second = image_second[y_second_pixel + y][x_second_pixel];
+        return SAD_temp;
+    }
+    // Do the last diff for y = 15
+    int x = 0;
+    while (x != 15)
+    {
+        int diff = temp_image_second - temp_image_first;
+
+        uint32_t abs_diff;
+        int const mask = (diff) >> (sizeof(int) * CHAR_BIT - 1);
+        abs_diff = (diff + mask) ^ mask;
+        SAD_temp += abs_diff;
+        
+        x += 1;
+        temp_image_first = image_first[y_first_pixel + y][x_first_pixel + x];
+        temp_image_second = image_second[y_second_pixel + y][x_second_pixel + x];
+    }
+    // Do the last diff for x = 15
+    int diff = temp_image_second - temp_image_first;
+    uint32_t abs_diff;
+    int const mask = (diff) >> (sizeof(int) * CHAR_BIT - 1);
+    abs_diff = (diff + mask) ^ mask;
+    SAD_temp += abs_diff;
+
+    return SAD_temp;
+}
+
 int main(void)
 {
     uint32_t image_first[HEIGHT][WIDTH];
     uint32_t image_second[HEIGHT][WIDTH];
     readImage("frame_1.bmp", image_first);
-    readImage("frame_2.bmp", image_second);
+    readImage("frame_1.bmp", image_second);
     
     int min_SAD_vals[15][20][3] = {};
     int y_first, x_first;
@@ -96,75 +163,7 @@ int main(void)
                     int x_second_pixel = x_second * 16;
                     
                     // Calculate SAD value for pair of image_second[x_second_pixel][y_second_pixel] and image_first[x_first_pixel][y_first_pixel]
-                    int SAD_temp = 0;
-                    int temp_image_first = image_first[y_first_pixel][x_first_pixel];
-                    int temp_image_second = image_second[y_second_pixel][x_second_pixel];
-
-                    int y = 0;
-                    while (y != 15)
-                    {
-                        int x = 0;
-                        while (x != 15)
-                        {
-                            int diff = temp_image_second - temp_image_first;
-
-                            if (diff < 0)
-                            {
-                                SAD_temp -= diff;
-                            }
-                            else
-                            {
-                                SAD_temp += diff;
-                            }
-
-                            x += 1;
-                            temp_image_first = image_first[y_first_pixel + y][x_first_pixel + x];
-                            temp_image_second = image_second[y_second_pixel + y][x_second_pixel + x];
-                        }
-
-                        // Do the last diff for x = 15
-                        int diff = temp_image_second - temp_image_first;
-                        if (diff < 0)
-                        {
-                            SAD_temp -= diff;
-                        }
-                        else
-                        {
-                            SAD_temp += diff;
-                        }
-            
-                        y += 1;
-                        temp_image_first = image_first[y_first_pixel + y][x_first_pixel];
-                        temp_image_second = image_second[y_second_pixel + y][x_second_pixel];
-                    }
-                    // Do the last diff for y = 15
-                    int x = 0;
-                    while (x != 15)
-                    {
-                        int diff = temp_image_second - temp_image_first;
-                        if (diff < 0)
-                        {
-                            SAD_temp -= diff;
-                        }
-                        else
-                        {
-                            SAD_temp += diff;
-                        }
-                        
-                        x += 1;
-                        temp_image_first = image_first[y_first_pixel + y][x_first_pixel + x];
-                        temp_image_second = image_second[y_second_pixel + y][x_second_pixel + x];
-                    }
-                    // Do the last diff for x = 15
-                    int diff = temp_image_second - temp_image_first;
-                    if (diff < 0)
-                    {
-                        SAD_temp -= diff;
-                    }
-                    else
-                    {
-                        SAD_temp += diff;
-                    }
+                    int SAD_temp = calc_block_diff(x_first_pixel, y_first_pixel, x_second_pixel, y_second_pixel, image_first, image_second);
 
                     // Check if this SAD value is lower than the current minimum
                     if(SAD_temp < min_SAD)
