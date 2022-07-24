@@ -12,7 +12,7 @@ This code contains software pipelining for both y and x of SAD calculation
 #define BITS_PER_PIXEL_OFFSET 0x001C
 #define DATA_OFFSET_OFFSET 0x000A
 
-void readImage(char filename[], uint8_t pixels[HEIGHT][WIDTH])
+static inline void readImage(char filename[], uint8_t pixels[HEIGHT][WIDTH])
 {
     FILE *bmp = fopen(filename, "rb");
     // find pixel data offset
@@ -40,7 +40,7 @@ void readImage(char filename[], uint8_t pixels[HEIGHT][WIDTH])
     fclose(bmp);
 }
 
-int calc_block_diff(int x_first_pixel, int y_first_pixel, int x_second_pixel, int y_second_pixel, uint8_t image_first[HEIGHT][WIDTH], uint8_t image_second[HEIGHT][WIDTH])
+static inline int calc_block_diff(int x_first_pixel, int y_first_pixel, int x_second_pixel, int y_second_pixel, uint8_t image_first[HEIGHT][WIDTH], uint8_t image_second[HEIGHT][WIDTH])
 {
     int SAD_temp = 0;
     int temp_image_first = image_first[y_first_pixel][x_first_pixel];
@@ -57,7 +57,7 @@ int calc_block_diff(int x_first_pixel, int y_first_pixel, int x_second_pixel, in
             // Calculate absolute value without using branches
             //http://www.graphics.stanford.edu/~seander/bithacks.html#IntegerAbs
             uint32_t abs_diff;
-            int const mask = (diff) >> (sizeof(int) * CHAR_BIT - 1);
+            int const mask = (diff) >> (31);
             abs_diff = (diff + mask) ^ mask;
             SAD_temp += abs_diff;
 
@@ -89,7 +89,8 @@ int calc_block_diff(int x_first_pixel, int y_first_pixel, int x_second_pixel, in
         int diff = temp_image_second - temp_image_first;
 
         uint32_t abs_diff;
-        int const mask = (diff) >> (sizeof(int) * CHAR_BIT - 1);
+        // sizeof(int) * CHAR_BIT - 1 = 31
+        int const mask = (diff) >> (31);
         abs_diff = (diff + mask) ^ mask;
         SAD_temp += abs_diff;
         
@@ -100,7 +101,7 @@ int calc_block_diff(int x_first_pixel, int y_first_pixel, int x_second_pixel, in
     // Do the last diff for x = 15
     int diff = temp_image_second - temp_image_first;
     uint32_t abs_diff;
-    int const mask = (diff) >> (sizeof(int) * CHAR_BIT - 1);
+    int const mask = (diff) >> (31);
     abs_diff = (diff + mask) ^ mask;
     SAD_temp += abs_diff;
 
@@ -112,7 +113,7 @@ int main(void)
     uint8_t image_first[HEIGHT][WIDTH];
     uint8_t image_second[HEIGHT][WIDTH];
     readImage("frame_1.bmp", image_first);
-    readImage("frame_2.bmp", image_second);
+    readImage("frame_1.bmp", image_second);
     int min_SAD_vals[15][20][3] = {};
     int y_first, x_first;
     // For each 16x16 block in first image
