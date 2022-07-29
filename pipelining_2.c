@@ -5,6 +5,7 @@ This code contains software pipelining for both y and x of SAD calculation
 #include <stdio.h>
 #include <stdint.h>
 #include <limits.h>
+#include <time.h>
 
 #define WIDTH 320
 #define HEIGHT 240
@@ -23,7 +24,6 @@ static inline void readImage(char filename[], uint8_t pixels[HEIGHT][WIDTH])
     uint32_t bitsPerPixel;
     fseek(bmp, BITS_PER_PIXEL_OFFSET, SEEK_SET);
     fread(&bitsPerPixel, 2, 1, bmp);
-    printf("%s: %d\n", filename, bitsPerPixel);
     uint32_t bytesPerPixel = bitsPerPixel / 8;
     uint32_t paddedRowSize = WIDTH * bytesPerPixel;
     // save pixel data to array
@@ -45,7 +45,7 @@ static inline int calc_block_diff(int x_first_pixel, int y_first_pixel, int x_se
     int SAD_temp = 0;
     int temp_image_first = image_first[y_first_pixel][x_first_pixel];
     int temp_image_second = image_second[y_second_pixel][x_second_pixel];
-
+    
     int y = 0;
     while (y != 15)
     {
@@ -110,8 +110,7 @@ int main(void)
     uint8_t image_first[HEIGHT][WIDTH];
     uint8_t image_second[HEIGHT][WIDTH];
     readImage("frame_1.bmp", image_first);
-    readImage("frame_1.bmp", image_second);
-
+    readImage("frame_2.bmp", image_second);
     int min_SAD_vals[15][20][3] = {};
     int y_first, x_first;
     // For each 16x16 block in first image
@@ -121,8 +120,8 @@ int main(void)
         int y_first_pixel = y_first * 16;
 
         // limit the search y-range to vicinity 4 blocks
-        // http://www.graphics.stanford.edu/~seander/bithacks.html#IntegerMinOrMax
-        register int y_first_add_val = y_first + 4;
+        // http://www.graphics.stanford.edu/~seander/bithacks.html#IntegerMinOrMaximage.png
+        register int y_first_add_val = y_first + 5;
         register int y_first_sub_val = y_first - 4;
         // Find the smaller value between 15 and (y_first + 4)
         int y_upper = (15) ^ (((y_first_add_val) ^ (15)) & -((y_first_add_val) < (15)));
@@ -136,12 +135,11 @@ int main(void)
 
             // limit the search x-range to vicinity 4 blocks
             // Find the smaller value between 20 and (x_first - 4)
-            register int x_first_add_val = x_first + 4;
+            register int x_first_add_val = x_first + 5;
             register int x_first_sub_val = x_first - 4;
-            int x_upper = (20) ^ (((x_first_add_val) ^ (20)) & -((x_first_add_val) < (20)));
+            int x_upper = (20) ^ (((x_first_add_val) ^ (20)) & -((x_first_add_val) < (20))) ;
             // Find the larger value between 0 and (y_first + 4)
             int x_lower = (x_first_sub_val) ^ (((x_first_sub_val) ^ (0)) & -((x_first_sub_val) < (0)));
-
             // Min SAD value for the current block
             int min_SAD = INT_MAX;
             // Block with the associated min SAD value
@@ -157,7 +155,6 @@ int main(void)
                 {
                     // X index of the first pixel in the second block
                     int x_second_pixel = x_second * 16;
-                    
                     int SAD_temp = 0;
                     // Calculate SAD value for pair of image_second[x_second_pixel][y_second_pixel] and image_first[x_first_pixel][y_first_pixel]
                     SAD_temp = calc_block_diff(x_first_pixel, y_first_pixel, x_second_pixel, y_second_pixel, image_first, image_second);
