@@ -1,5 +1,5 @@
 /*
-This code contains software pipelining for both y and x of SAD calculation
+This code contains branching optimization: finding absolute value, lower and upper search range without any branching
 */
 
 #include <stdint.h>
@@ -121,9 +121,9 @@ int main(void)
 
         // limit the search y-range to vicinity 4 blocks
         // http://www.graphics.stanford.edu/~seander/bithacks.html#IntegerMinOrMaximage.png
-        register int y_first_add_val = y_first + 5;
-        register int y_first_sub_val = y_first - 4;
-        // Find the smaller value between 15 and (y_first + 4)
+        int y_first_add_val = y_first + 5;
+        int y_first_sub_val = y_first - 4;
+        // Find the smaller value between 15 and (y_first + 5)
         int y_upper = (15) ^ (((y_first_add_val) ^ (15)) & -((y_first_add_val) < (15)));
         // Find the larger value between 0 and (y_first - 4)
         int y_lower = (y_first_sub_val) ^ (((y_first_sub_val) ^ (0)) & -((y_first_sub_val) < (0)));
@@ -133,12 +133,12 @@ int main(void)
             // X index of the first pixel in the first block
             int x_first_pixel = x_first * 16;
 
-            // limit the search x-range to vicinity 4 blocks
-            // Find the smaller value between 20 and (x_first - 4)
-            register int x_first_add_val = x_first + 5;
-            register int x_first_sub_val = x_first - 4;
+            // limit the search x-range to vicinity 9 blocks
+            int x_first_add_val = x_first + 5;
+            int x_first_sub_val = x_first - 4;
+            // Find the smaller value between 20 and (x_first + 5)
             int x_upper = (20) ^ (((x_first_add_val) ^ (20)) & -((x_first_add_val) < (20))) ;
-            // Find the larger value between 0 and (y_first + 4)
+            // Find the larger value between 0 and (x_first - 4)
             int x_lower = (x_first_sub_val) ^ (((x_first_sub_val) ^ (0)) & -((x_first_sub_val) < (0)));
             // Min SAD value for the current block
             int min_SAD = INT_MAX;

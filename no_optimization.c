@@ -1,3 +1,7 @@
+/*
+This code contains unoptimized C code 
+*/
+
 #include <stdio.h>
 #include <stdint.h>
 // Maximum value for an integer

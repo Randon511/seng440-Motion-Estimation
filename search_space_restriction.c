@@ -1,3 +1,7 @@
+/*
+This code contains search space restriction: limit search space to 9 nearby blocks
+*/
+
 #include <stdio.h>
 #include <stdint.h>
 // Maximum value for an integer
@@ -117,7 +121,6 @@ int main(void)
     
     int min_SAD_vals[15][20][3] = {};
     int y_first, x_first;
-
     // For each 16x16 block in first image
     for (y_first = 0; y_first < 15; y_first++)
     {
@@ -134,16 +137,15 @@ int main(void)
         int y_first_pixel = y_first * 16;
         for (x_first = 0; x_first < 20; x_first++)
         { 
-			// limit the search x-range to vicinity 4 blocks
+			// limit the search x-range to vicinity 9 blocks
             int x_upper = 20;
             int x_lower = 0;
             if (x_first - 4 > 0){
                 x_lower = x_first - 4;
             }
-            if (x_first + 5 < 15){
+            if (x_first + 5 < 20){
                 x_upper = x_first + 5;
             }
-
             int x_first_pixel = x_first * 16;
             // Min SAD value for the current block
             int min_SAD = INT_MAX;
@@ -179,7 +181,7 @@ int main(void)
             min_SAD_vals[y_first][x_first][2] = min_y - y_first;
 
             // Print the r and s corresponding to the smallest SAD for image_first[x_first][y_first] block
-            //printf("block [%i][%i] has motion vector (%i, %i)\n", y_first, x_first, min_SAD_vals[y_first][x_first][1], min_SAD_vals[y_first][x_first][2]);
+            printf("block [%i][%i] has motion vector (%i, %i)\n", y_first, x_first, min_SAD_vals[y_first][x_first][1], min_SAD_vals[y_first][x_first][2]);
         }
     }
 }

@@ -1,3 +1,7 @@
+/*
+This code contains software pipelining for loop over x of each pixel in the block
+*/
+
 #include <stdio.h>
 #include <stdint.h>
 // Maximum value for an integer

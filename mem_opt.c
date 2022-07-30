@@ -1,3 +1,7 @@
+/*
+This code contains memory optimization: read pixel in (y,x) order to avoid cache miss
+*/
+
 #include <stdio.h>
 #include <stdint.h>
 // Maximum value for an integer
