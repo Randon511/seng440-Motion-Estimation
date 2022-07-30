@@ -3,6 +3,7 @@ This code contains software pipelining for both y and x of SAD calculation
 */
 
 #include <stdint.h>
+#include <stdio.h>
 #include <limits.h>
 #include <time.h>
 
@@ -72,7 +73,6 @@ static inline int calc_block_diff(int x_first_pixel, int y_first_pixel, int x_se
         SAD_temp += abs_diff;
         
         y += 1;
-        //printf("[%d, %d] , [%d, %d]\n", y_first_pixel + y, x_first_pixel, y_second_pixel + y, x_second_pixel);
         temp_image_first = image_first[y_first_pixel + y][x_first_pixel];
         temp_image_second = image_second[y_second_pixel + y][x_second_pixel];
     }
@@ -178,13 +178,7 @@ int main(void)
             min_SAD_vals[y_first][x_first][2] = min_y - y_first;
 
             // Print the r and s corresponding to the smallest SAD for image_first[x_first][y_first] block
-            //printf("block [%i][%i] has motion vector (%i, %i)\n", y_first, x_first, min_SAD_vals[y_first][x_first][1], min_SAD_vals[y_first][x_first][2]);
-            /*
-                --- may need a better way to print (r,s) values
-            */
+            printf("block [%i][%i] has motion vector (%i, %i)\n", y_first, x_first, min_SAD_vals[y_first][x_first][1], min_SAD_vals[y_first][x_first][2]);
         }
     }
-    //clock_t end = clock();
-   // double cycles = end - start;
-    //printf("Time: %f\n", cycles);
 }
