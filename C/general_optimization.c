@@ -43,15 +43,15 @@ static inline void readImage(char filename[], uint8_t pixels[HEIGHT][WIDTH])
 static inline uint16_t calc_block_diff(uint16_t x_first_pixel, uint16_t y_first_pixel, uint16_t x_second_pixel, uint16_t y_second_pixel, uint8_t image_first[HEIGHT][WIDTH], uint8_t image_second[HEIGHT][WIDTH])
 {
     uint16_t SAD_temp = 0;
-    uint8_t temp_image_first = image_first[y_first_pixel][x_first_pixel];
-    uint8_t temp_image_second = image_second[y_second_pixel][x_second_pixel];
+    int16_t temp_image_first = image_first[y_first_pixel][x_first_pixel];
+    int16_t temp_image_second = image_second[y_second_pixel][x_second_pixel];
     uint8_t y = 0;
     while (y != 15)
     {
         int x = 0;
         while (x != 15)
         {
-            int16_t diff = (int16_t)temp_image_second - (int16_t)temp_image_first;
+            int16_t diff = temp_image_second - temp_image_first;
             
             // Calculate absolute value without using branches
             //http://www.graphics.stanford.edu/~seander/bithacks.html#IntegerAbs
@@ -66,7 +66,7 @@ static inline uint16_t calc_block_diff(uint16_t x_first_pixel, uint16_t y_first_
         }
 
         // Do the last diff for x = 15
-        int16_t diff = (int16_t)temp_image_second - (int16_t)temp_image_first;
+        int16_t diff = temp_image_second - temp_image_first;
         uint16_t abs_diff;
         uint16_t const mask = (diff) >> (15);
         abs_diff = (diff + mask) ^ mask;
@@ -81,7 +81,7 @@ static inline uint16_t calc_block_diff(uint16_t x_first_pixel, uint16_t y_first_
     uint8_t x = 0;
     while (x != 15)
     {
-        int16_t diff = (int16_t)temp_image_second - (int16_t)temp_image_first;
+        int16_t diff = temp_image_second - temp_image_first;
 
         uint16_t abs_diff;
         // sizeof(uint16_t) * CHAR_BIT - 1 = 15
@@ -94,7 +94,7 @@ static inline uint16_t calc_block_diff(uint16_t x_first_pixel, uint16_t y_first_
         temp_image_second = image_second[y_second_pixel + y][x_second_pixel + x];
     }
     // Do the last diff for x = 15
-    int16_t diff = (int16_t)temp_image_second - (int16_t)temp_image_first;
+    int16_t diff = temp_image_second - temp_image_first;
     uint16_t abs_diff;
     uint16_t const mask = (diff) >> (15);
     abs_diff = (diff + mask) ^ mask;
