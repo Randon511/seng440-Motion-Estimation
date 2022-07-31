@@ -118,7 +118,6 @@ int main(void)
     uint8_t image_second[HEIGHT][WIDTH];
     readImage("frame_1.bmp", image_first);
     readImage("frame_2.bmp", image_second);
-    
     int min_SAD_vals[15][20][3] = {};
     int y_first, x_first;
     // For each 16x16 block in first image
@@ -127,11 +126,11 @@ int main(void)
 		// limit the search y-range to vicinity 4 blocks
 		int y_upper = 15;
 		int y_lower = 0;
-		if (y_first - 4 > 0 ){
-			y_lower = y_first - 4;
+		if (y_first - 2 > 0 ){
+			y_lower = y_first - 2;
 		}
-		if (y_first + 5 < 15) {
-			y_upper = y_first + 5;
+		if (y_first + 3 < 15) {
+			y_upper = y_first + 3;
 		}
 
         int y_first_pixel = y_first * 16;
@@ -140,18 +139,17 @@ int main(void)
 			// limit the search x-range to vicinity 9 blocks
             int x_upper = 20;
             int x_lower = 0;
-            if (x_first - 4 > 0){
-                x_lower = x_first - 4;
+            if (x_first - 2 > 0){
+                x_lower = x_first - 2;
             }
-            if (x_first + 5 < 20){
-                x_upper = x_first + 5;
+            if (x_first + 3 < 20){
+                x_upper = x_first + 3;
             }
             int x_first_pixel = x_first * 16;
             // Min SAD value for the current block
             int min_SAD = INT_MAX;
             // Block with the associated min SAD value
             int min_x, min_y = -1;
-
             // For each 16x16 block in second image
             int y_second, x_second;
             for (y_second = y_lower; y_second < y_upper; y_second++)
@@ -160,9 +158,10 @@ int main(void)
                 for (x_second = x_lower; x_second < x_upper; x_second++)
                 {
                     int x_second_pixel = x_second * 16;
-                    // Calculate SAD value for pair of image_second[x_second][y_second] and image_first[x_first][y_first]
-                    int SAD_temp = calc_block_diff(x_first_pixel, y_first_pixel, x_second_pixel, y_second_pixel, image_first, image_second);
-                    
+                    // Calculate SAD value for pair of blocks
+                    int SAD_temp = calc_block_diff(x_first_pixel, y_first_pixel, 
+                                                    x_second_pixel, y_second_pixel, 
+                                                    image_first, image_second);
                     // Check if this SAD value is lower than the current minimum
                     if(SAD_temp < min_SAD)
                     {
@@ -172,16 +171,15 @@ int main(void)
                     }   
                 }
             }
-
             // Min SAD value found
             min_SAD_vals[y_first][x_first][0] = min_SAD;
             // r for the block with the min SAD value
             min_SAD_vals[y_first][x_first][1] = min_x - x_first;
             // s for the block with the min SAD value
             min_SAD_vals[y_first][x_first][2] = min_y - y_first;
-
-            // Print the r and s corresponding to the smallest SAD for image_first[x_first][y_first] block
-            printf("block [%i][%i] has motion vector (%i, %i)\n", y_first, x_first, min_SAD_vals[y_first][x_first][1], min_SAD_vals[y_first][x_first][2]);
+            // Print the r and s corresponding to the smallest SAD for current block
+            printf("block [%i][%i] has motion vector (%i, %i)\n", y_first, x_first, 
+                                                min_SAD_vals[y_first][x_first][1], min_SAD_vals[y_first][x_first][2]);
         }
     }
 }

@@ -89,8 +89,10 @@ int main(void)
                 for (y_second = 0; y_second < 15; y_second++)
                 {
                     int y_second_pixel = y_second * 16;
-                    // Calculate SAD value for pair of image_second[x_second][y_second] and image_first[x_first][y_first]
-                    int SAD_temp = calc_block_diff(x_first_pixel, y_first_pixel, x_second_pixel, y_second_pixel, image_first, image_second);
+                    // Calculate SAD value for pair of blocks
+                    int SAD_temp = calc_block_diff(x_first_pixel, y_first_pixel, 
+                                                    x_second_pixel, y_second_pixel, 
+                                                    image_first, image_second);
                     // Check if this SAD value is lower than the current minimum
                     if(SAD_temp < min_SAD)
                     {
@@ -106,8 +108,9 @@ int main(void)
             min_SAD_vals[y_first][x_first][1] = min_x - x_first;
             // s for the block with the min SAD value
             min_SAD_vals[y_first][x_first][2] = min_y - y_first;
-            // Print the r and s corresponding to the smallest SAD for image_first[x_first][y_first] block
-            printf("block [%i][%i] has motion vector (%i, %i)\n", y_first, x_first, min_SAD_vals[y_first][x_first][1], min_SAD_vals[y_first][x_first][2]);
+            // Print the r and s corresponding to the smallest SAD for current block
+            printf("block [%i][%i] has motion vector (%i, %i)\n", y_first, x_first, 
+                                                        min_SAD_vals[y_first][x_first][1], min_SAD_vals[y_first][x_first][2]);
         }
     }
 }
