@@ -390,19 +390,19 @@ main:
 	mov	r3, #0
 	str	r3, [fp, #-64]
 	ldr	r3, [fp, #-76]
-	sub	r3, r3, #4
+	sub	r3, r3, #2
 	cmp	r3, #0
 	ble	.L27
 	ldr	r3, [fp, #-76]
-	sub	r3, r3, #4
+	sub	r3, r3, #2
 	str	r3, [fp, #-64]
 .L27:
 	ldr	r3, [fp, #-76]
-	add	r3, r3, #5
+	add	r3, r3, #3
 	cmp	r3, #14
 	bgt	.L28
 	ldr	r3, [fp, #-76]
-	add	r3, r3, #5
+	add	r3, r3, #3
 	str	r3, [fp, #-68]
 .L28:
 	ldr	r3, [fp, #-76]
@@ -417,19 +417,19 @@ main:
 	mov	r3, #0
 	str	r3, [fp, #-52]
 	ldr	r3, [fp, #-72]
-	sub	r3, r3, #4
+	sub	r3, r3, #2
 	cmp	r3, #0
 	ble	.L30
 	ldr	r3, [fp, #-72]
-	sub	r3, r3, #4
+	sub	r3, r3, #2
 	str	r3, [fp, #-52]
 .L30:
 	ldr	r3, [fp, #-72]
-	add	r3, r3, #5
+	add	r3, r3, #3
 	cmp	r3, #19
 	bgt	.L31
 	ldr	r3, [fp, #-72]
-	add	r3, r3, #5
+	add	r3, r3, #3
 	str	r3, [fp, #-56]
 .L31:
 	ldr	r3, [fp, #-72]

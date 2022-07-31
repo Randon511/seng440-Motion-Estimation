@@ -62,10 +62,10 @@ main:
 	mov	r3, r3, asl #4
 	strh	r3, [fp, #-32]	@ movhi
 	ldrb	r3, [fp, #-34]
-	add	r3, r3, #5
+	add	r3, r3, #3
 	and	r2, r3, #255
 	ldrb	r3, [fp, #-34]
-	sub	r3, r3, #4
+	sub	r3, r3, #2
 	and	r3, r3, #255
 	sub	r1, fp, #151552
 	str	r3, [r1, #-3892]
@@ -115,10 +115,10 @@ main:
 	mov	r3, r3, asl #4
 	strh	r3, [fp, #-28]	@ movhi
 	ldrb	r3, [fp, #-33]
-	add	r3, r3, #5
+	add	r3, r3, #3
 	and	r2, r3, #255
 	ldrb	r3, [fp, #-33]
-	sub	r3, r3, #4
+	sub	r3, r3, #2
 	and	r3, r3, #255
 	sub	r1, fp, #151552
 	str	r3, [r1, #-3888]

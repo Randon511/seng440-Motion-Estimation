@@ -120,8 +120,8 @@ int main(void)
 
         // limit the search y-range to vicinity 4 blocks
         // http://www.graphics.stanford.edu/~seander/bithacks.html#IntegerMinOrMaximage.png
-        register uint8_t y_first_add_val = y_first + 5;
-        register int8_t y_first_sub_val = y_first - 4;
+        register uint8_t y_first_add_val = y_first + 3;
+        register int8_t y_first_sub_val = y_first - 2;
         // Find the smaller value between 15 and (y_first + 5)
         uint8_t y_upper = (15) ^ (((y_first_add_val) ^ (15)) & -((y_first_add_val) < (15)));
         // Find the larger value between 0 and (y_first - 4)
@@ -134,8 +134,8 @@ int main(void)
 
             // limit the search x-range to vicinity 9 blocks
             
-            register uint8_t x_first_add_val = x_first + 5;
-            register int8_t x_first_sub_val = x_first - 4;
+            register uint8_t x_first_add_val = x_first + 3;
+            register int8_t x_first_sub_val = x_first - 2;
             // Find the smaller value between 20 and (x_first + 5)
             uint8_t x_upper = (20) ^ (((x_first_add_val) ^ (20)) & -((x_first_add_val) < (20))) ;
             // Find the larger value between 0 and (x_first - 4)

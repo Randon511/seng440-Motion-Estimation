@@ -385,10 +385,10 @@ main:
 	mov	r3, r3, asl #4
 	str	r3, [fp, #-84]
 	ldr	r3, [fp, #-92]
-	add	r3, r3, #5
+	add	r3, r3, #3
 	str	r3, [fp, #-80]
 	ldr	r3, [fp, #-92]
-	sub	r3, r3, #4
+	sub	r3, r3, #2
 	str	r3, [fp, #-76]
 	ldr	r3, [fp, #-80]
 	eor	r2, r3, #15
@@ -425,10 +425,10 @@ main:
 	mov	r3, r3, asl #4
 	str	r3, [fp, #-64]
 	ldr	r3, [fp, #-88]
-	add	r3, r3, #5
+	add	r3, r3, #3
 	str	r3, [fp, #-60]
 	ldr	r3, [fp, #-88]
-	sub	r3, r3, #4
+	sub	r3, r3, #2
 	str	r3, [fp, #-56]
 	ldr	r3, [fp, #-60]
 	eor	r2, r3, #20
