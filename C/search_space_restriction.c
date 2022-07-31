@@ -12,7 +12,7 @@ This code contains search space restriction: limit search space to 9 nearby bloc
 #define BITS_PER_PIXEL_OFFSET 0x001C
 #define DATA_OFFSET_OFFSET 0x000A
 
-void readImage(char filename[], uint8_t pixels[HEIGHT][WIDTH])
+static void readImage(char filename[], uint8_t pixels[HEIGHT][WIDTH])
 {
     FILE *bmp = fopen(filename, "rb");
     // find pixel data offset
@@ -39,7 +39,7 @@ void readImage(char filename[], uint8_t pixels[HEIGHT][WIDTH])
     fclose(bmp);
 }
 
-static inline int calc_block_diff(int x_first_pixel, int y_first_pixel, int x_second_pixel, int y_second_pixel, uint8_t image_first[HEIGHT][WIDTH], uint8_t image_second[HEIGHT][WIDTH])
+static int calc_block_diff(int x_first_pixel, int y_first_pixel, int x_second_pixel, int y_second_pixel, uint8_t image_first[HEIGHT][WIDTH], uint8_t image_second[HEIGHT][WIDTH])
 {
     int SAD_temp = 0;
     int temp_image_first = image_first[y_first_pixel][x_first_pixel];
