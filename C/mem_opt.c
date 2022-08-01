@@ -12,7 +12,7 @@ This code contains memory optimization: read pixel in (y,x) order to avoid cache
 #define BITS_PER_PIXEL_OFFSET 0x001C
 #define DATA_OFFSET_OFFSET 0x000A
 
-void readImage(char filename[], uint8_t pixels[HEIGHT][WIDTH])
+static void readImage(char filename[], uint8_t pixels[HEIGHT][WIDTH])
 {
     FILE *bmp = fopen(filename, "rb");
     // find pixel data offset

@@ -15,7 +15,6 @@
 	.ascii	"rb\000"
 	.text
 	.align	2
-	.global	readImage
 	.type	readImage, %function
 readImage:
 	@ Function supports interworking.
