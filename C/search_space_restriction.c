@@ -83,7 +83,6 @@ int main(void)
 		if (y_first + 3 < 15) {
 			y_upper = y_first + 3;
 		}
-
         int y_first_pixel = y_first * 16;
         for (x_first = 0; x_first < 20; x_first++)
         { 
@@ -128,7 +127,8 @@ int main(void)
             min_SAD_vals[y_first][x_first][1] = min_y - y_first;
             // Print the r and s corresponding to the smallest SAD for current block
             printf("block [%i][%i] has motion vector (%i, %i)\n", y_first, x_first, 
-                                                min_SAD_vals[y_first][x_first][0], min_SAD_vals[y_first][x_first][1]);
+                                                min_SAD_vals[y_first][x_first][0], 
+                                                min_SAD_vals[y_first][x_first][1]);
         }
     }
 }

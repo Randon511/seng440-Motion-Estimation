@@ -109,7 +109,8 @@ int main(void)
             min_SAD_vals[y_first][x_first][1] = min_y - y_first;
             // Print the r and s corresponding to the smallest SAD for current block
             printf("block [%i][%i] has motion vector (%i, %i)\n", y_first, x_first, 
-                                                        min_SAD_vals[y_first][x_first][0], min_SAD_vals[y_first][x_first][1]);
+                                                        min_SAD_vals[y_first][x_first][0], 
+                                                        min_SAD_vals[y_first][x_first][1]);
         }
     }
 }

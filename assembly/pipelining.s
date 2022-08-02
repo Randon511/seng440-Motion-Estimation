@@ -183,7 +183,7 @@ calc_block_diff:
 	add	r3, r3, #1
 	str	r3, [fp, #-20]
 	ldr	r2, [fp, #-52]
-	ldr	r3, [fp, #-32]
+	ldr	r3, [fp, #-20]
 	add	r3, r2, r3
 	mov	r2, r3, asl #6
 	mov	r3, r2, asl #2
@@ -191,12 +191,12 @@ calc_block_diff:
 	ldr	r3, [fp, #4]
 	add	r1, r3, r2
 	ldr	r2, [fp, #-48]
-	ldr	r3, [fp, #-20]
+	ldr	r3, [fp, #-32]
 	add	r3, r2, r3
 	ldrb	r3, [r1, r3]	@ zero_extendqisi2
 	str	r3, [fp, #-40]
 	ldr	r2, [fp, #-60]
-	ldr	r3, [fp, #-32]
+	ldr	r3, [fp, #-20]
 	add	r3, r2, r3
 	mov	r2, r3, asl #6
 	mov	r3, r2, asl #2
@@ -204,7 +204,7 @@ calc_block_diff:
 	ldr	r3, [fp, #8]
 	add	r1, r3, r2
 	ldr	r2, [fp, #-56]
-	ldr	r3, [fp, #-20]
+	ldr	r3, [fp, #-32]
 	add	r3, r2, r3
 	ldrb	r3, [r1, r3]	@ zero_extendqisi2
 	str	r3, [fp, #-36]
@@ -234,7 +234,7 @@ calc_block_diff:
 	add	r3, r3, #1
 	str	r3, [fp, #-32]
 	ldr	r2, [fp, #-52]
-	ldr	r3, [fp, #-32]
+	ldr	r3, [fp, #-20]
 	add	r3, r2, r3
 	mov	r2, r3, asl #6
 	mov	r3, r2, asl #2
@@ -245,7 +245,7 @@ calc_block_diff:
 	ldrb	r3, [r2, r3]	@ zero_extendqisi2
 	str	r3, [fp, #-40]
 	ldr	r2, [fp, #-60]
-	ldr	r3, [fp, #-32]
+	ldr	r3, [fp, #-20]
 	add	r3, r2, r3
 	mov	r2, r3, asl #6
 	mov	r3, r2, asl #2
@@ -285,7 +285,7 @@ calc_block_diff:
 	add	r3, r3, #1
 	str	r3, [fp, #-28]
 	ldr	r2, [fp, #-52]
-	ldr	r3, [fp, #-32]
+	ldr	r3, [fp, #-28]
 	add	r3, r2, r3
 	mov	r2, r3, asl #6
 	mov	r3, r2, asl #2
@@ -293,12 +293,12 @@ calc_block_diff:
 	ldr	r3, [fp, #4]
 	add	r1, r3, r2
 	ldr	r2, [fp, #-48]
-	ldr	r3, [fp, #-28]
+	ldr	r3, [fp, #-32]
 	add	r3, r2, r3
 	ldrb	r3, [r1, r3]	@ zero_extendqisi2
 	str	r3, [fp, #-40]
 	ldr	r2, [fp, #-60]
-	ldr	r3, [fp, #-32]
+	ldr	r3, [fp, #-28]
 	add	r3, r2, r3
 	mov	r2, r3, asl #6
 	mov	r3, r2, asl #2
@@ -306,7 +306,7 @@ calc_block_diff:
 	ldr	r3, [fp, #8]
 	add	r1, r3, r2
 	ldr	r2, [fp, #-56]
-	ldr	r3, [fp, #-28]
+	ldr	r3, [fp, #-32]
 	add	r3, r2, r3
 	ldrb	r3, [r1, r3]	@ zero_extendqisi2
 	str	r3, [fp, #-36]

@@ -39,17 +39,18 @@ static void readImage(char filename[], uint8_t pixels[HEIGHT][WIDTH])
     fclose(bmp);
 }
 
-static int calc_block_diff(int x_first_pixel, int y_first_pixel, int x_second_pixel, int y_second_pixel, 
+static int calc_block_diff(int x_first_pixel, int y_first_pixel, 
+                            int x_second_pixel, int y_second_pixel, 
                             uint8_t image_first[HEIGHT][WIDTH], uint8_t image_second[HEIGHT][WIDTH])
 {
     int SAD_temp = 0;
     int temp_image_first = image_first[y_first_pixel][x_first_pixel];
     int temp_image_second = image_second[y_second_pixel][x_second_pixel];
-    int y = 0;
-    while (y != 15)
+    int x = 0;
+    while (x != 15)
     {
-        int x = 0;
-        while (x != 15)
+        int y = 0;
+        while (y != 15)
         {
             int diff = temp_image_second - temp_image_first;
             if (diff < 0)
@@ -60,7 +61,7 @@ static int calc_block_diff(int x_first_pixel, int y_first_pixel, int x_second_pi
             {
                 SAD_temp += diff;
             }
-            x += 1;
+            y += 1;
             temp_image_first = image_first[y_first_pixel + y][x_first_pixel + x];
             temp_image_second = image_second[y_second_pixel + y][x_second_pixel + x];
         }
@@ -74,13 +75,13 @@ static int calc_block_diff(int x_first_pixel, int y_first_pixel, int x_second_pi
         {
             SAD_temp += diff;
         }
-        y += 1;
+        x += 1;
         temp_image_first = image_first[y_first_pixel + y][x_first_pixel];
         temp_image_second = image_second[y_second_pixel + y][x_second_pixel];
     }
-    // Do the last diff for y = 15
-    int x = 0;
-    while (x != 15)
+    // Do the last diff for x = 15
+    int y = 0;
+    while (y != 15)
     {
         int diff = temp_image_second - temp_image_first;
         if (diff < 0)
@@ -92,11 +93,11 @@ static int calc_block_diff(int x_first_pixel, int y_first_pixel, int x_second_pi
             SAD_temp += diff;
         }
 
-        x += 1;
+        y += 1;
         temp_image_first = image_first[y_first_pixel + y][x_first_pixel + x];
         temp_image_second = image_second[y_second_pixel + y][x_second_pixel + x];
     }
-    // Do the last diff for x = 15
+    // Do the last diff for y = 15
     int diff = temp_image_second - temp_image_first;
     if (diff < 0)
     {
