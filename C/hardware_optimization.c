@@ -54,10 +54,10 @@ static int calc_block_diff(int x_first_pixel, int y_first_pixel,
                                 image_first[y_first_pixel + y + 1][x_first_pixel + x] << 16 + 
                                 image_first[y_first_pixel + y + 2][x_first_pixel + x] << 8 +
                                 image_first[y_first_pixel + y + 3][x_first_pixel + x];
-            Rs2 = image_second[y_first_pixel + y][x_first_pixel + x] << 24 +
-                                image_second[y_first_pixel + y + 1][x_first_pixel + x] << 16 + 
-                                image_second[y_first_pixel + y + 2][x_first_pixel + x] << 8 +
-                                image_second[y_first_pixel + y + 3][x_first_pixel + x];
+            Rs2 = image_second[y_second_pixel + y][x_second_pixel + x] << 24 +
+                                image_second[y_second_pixel + y + 1][x_second_pixel + x] << 16 + 
+                                image_second[y_second_pixel + y + 2][x_second_pixel + x] << 8 +
+                                image_second[y_second_pixel + y + 3][x_second_pixel + x];
             __asm__ ( "SAD %1, %2, %0" : " = r " ( Rt ) : " r " ( Rs1 ) , " r " ( Rs2 ) ) ;
             SAD_temp += Rt;
         }
