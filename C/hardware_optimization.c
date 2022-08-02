@@ -1,5 +1,5 @@
 /*
-This code contains unoptimized C code 
+This code contains hardware optimization
 */
 
 #include <stdio.h>
@@ -44,20 +44,22 @@ static int calc_block_diff(int x_first_pixel, int y_first_pixel,
                             uint8_t image_first[HEIGHT][WIDTH], uint8_t image_second[HEIGHT][WIDTH])
 {
     int SAD_temp = 0;
-    int x, y;
+    register int x, y, Rs1, Rs2, Rt;
+    __asm__ ( "RESET_SAD %1, %2, %0" : " = r " ( Rt ) : " r " ( Rs1 ) , " r " ( Rs2 ) ) ;
     for (x = 0; x < 16; x++)
     {
-        for (y = 0; y < 16; y++)
+        for (y = 0; y < 16; y+=4)
         {
-            int diff = image_second[y_second_pixel + y][x_second_pixel + x] - image_first[y_first_pixel + y][x_first_pixel + x];
-            if (diff < 0)
-            {
-                SAD_temp -= diff;
-            }
-            else
-            {
-                SAD_temp += diff;
-            }
+            Rs1 = image_first[y_first_pixel + y][x_first_pixel + x] << 24 +
+                                image_first[y_first_pixel + y + 1][x_first_pixel + x] << 16 + 
+                                image_first[y_first_pixel + y + 2][x_first_pixel + x] << 8 +
+                                image_first[y_first_pixel + y + 3][x_first_pixel + x];
+            Rs2 = image_second[y_first_pixel + y][x_first_pixel + x] << 24 +
+                                image_second[y_first_pixel + y + 1][x_first_pixel + x] << 16 + 
+                                image_second[y_first_pixel + y + 2][x_first_pixel + x] << 8 +
+                                image_second[y_first_pixel + y + 3][x_first_pixel + x];
+            __asm__ ( "SAD %1, %2, %0" : " = r " ( Rt ) : " r " ( Rs1 ) , " r " ( Rs2 ) ) ;
+            SAD_temp += Rt;
         }
     }
     return SAD_temp;
@@ -69,7 +71,7 @@ int main(void)
     uint8_t image_second[HEIGHT][WIDTH];
     readImage("frame_1.bmp", image_first);
     readImage("frame_2.bmp", image_second);
-    int min_SAD_vals[15][20][2] = {};
+    int min_SAD_vals[15][20][3] = {};
     int y_first, x_first;
     // For each 16x16 block in first image
     for (x_first = 0; x_first < 20; x_first++)
@@ -81,7 +83,7 @@ int main(void)
             // Min SAD value for the current block
             int min_SAD = INT_MAX;
             // Block with the associated min SAD value
-            int min_x, min_y = 0;
+            int min_x, min_y = -1;
             // For each 16x16 block in second image
             int y_second, x_second;
             for (x_second = 0; x_second < 20; x_second++)
@@ -103,13 +105,15 @@ int main(void)
                     }   
                 }
             }
+            // Min SAD value found
+            min_SAD_vals[y_first][x_first][0] = min_SAD;
             // r for the block with the min SAD value
-            min_SAD_vals[y_first][x_first][0] = min_x - x_first;
+            min_SAD_vals[y_first][x_first][1] = min_x - x_first;
             // s for the block with the min SAD value
-            min_SAD_vals[y_first][x_first][1] = min_y - y_first;
+            min_SAD_vals[y_first][x_first][2] = min_y - y_first;
             // Print the r and s corresponding to the smallest SAD for current block
             printf("block [%i][%i] has motion vector (%i, %i)\n", y_first, x_first, 
-                                                        min_SAD_vals[y_first][x_first][0], min_SAD_vals[y_first][x_first][1]);
+                                                        min_SAD_vals[y_first][x_first][1], min_SAD_vals[y_first][x_first][2]);
         }
     }
 }

@@ -25,174 +25,80 @@
 	.type	main, %function
 main:
 	@ Function supports interworking.
-	@ args = 0, pretend = 0, frame = 155456
+	@ args = 0, pretend = 0, frame = 154232
 	@ frame_needed = 1, uses_anonymous_args = 0
-	stmfd	sp!, {r4, r5, fp, lr}
-	add	fp, sp, #12
-	sub	sp, sp, #154624
-	sub	sp, sp, #840
+	stmfd	sp!, {r4, fp, lr}
+	add	fp, sp, #8
+	sub	sp, sp, #153600
+	sub	sp, sp, #644
 	sub	r3, fp, #76800
 	sub	r3, r3, #12
-	sub	r3, r3, #22
-	ldr	r0, .L16
+	sub	r3, r3, #16
+	ldr	r0, .L12
 	mov	r1, r3
 	bl	readImage
 	sub	r3, fp, #153600
 	sub	r3, r3, #12
-	sub	r3, r3, #22
-	ldr	r0, .L16+4
+	sub	r3, r3, #16
+	ldr	r0, .L12+4
 	mov	r1, r3
 	bl	readImage
-	mvn	r3, #154624
-	sub	r3, r3, #796
-	sub	r3, r3, #1
-	sub	r1, fp, #12
-	add	r2, r1, r3
-	mov	r3, #1792
-	add	r3, r3, #8
-	mov	r0, r2
+	mvn	r3, #153600
+	sub	r3, r3, #612
+	sub	r3, r3, #3
+	sub	r0, fp, #12
+	add	r3, r0, r3
+	mov	r2, #600
+	mov	r0, r3
 	mov	r1, #0
-	mov	r2, r3
 	bl	memset
 	mov	r3, #0
-	strb	r3, [fp, #-34]
+	strb	r3, [fp, #-27]
 	b	.L2
-.L14:
-	ldrb	r3, [fp, #-34]	@ zero_extendqisi2
+.L10:
+	ldrb	r3, [fp, #-27]	@ zero_extendqisi2
 	mov	r3, r3, asl #4
-	strh	r3, [fp, #-32]	@ movhi
-	ldrb	r3, [fp, #-34]
-	add	r3, r3, #3
-	strb	r3, [fp, #-30]
-	ldrb	r3, [fp, #-34]
-	sub	r3, r3, #2
-	and	r3, r3, #255
-	strb	r3, [fp, #-29]
-	ldrb	r3, [fp, #-30]
-	eor	r3, r3, #15
-	and	r3, r3, #255
-	mov	r2, r3
-	ldrb	r3, [fp, #-30]	@ zero_extendqisi2
-	cmp	r3, #14
-	movhi	r3, #0
-	movls	r3, #1
-	rsb	r3, r3, #0
-	and	r3, r3, #255
-	and	r3, r2, r3
-	and	r3, r3, #255
-	eor	r3, r3, #15
-	and	r3, r3, #255
-	and	r2, r3, #255
-	sub	r1, fp, #151552
-	str	r2, [r1, #-3900]
-	ldrsb	r3, [fp, #-29]
-	cmp	r3, #0
-	bge	.L3
+	strh	r3, [fp, #-26]	@ movhi
 	mov	r3, #0
-	sub	r2, fp, #151552
-	str	r3, [r2, #-3908]
-	b	.L4
-.L3:
-	mov	r2, #255
-	sub	r1, fp, #151552
-	str	r2, [r1, #-3908]
-.L4:
-	sub	r3, fp, #154624
-	sub	r3, r3, #768
-	ldrb	r2, [r3, #-68]
-	ldrb	r3, [fp, #-29]
-	and	r3, r2, r3
-	and	r3, r3, #255
-	and	r1, r3, #255
-	sub	r2, fp, #151552
-	str	r1, [r2, #-3896]
-	mov	r3, #0
-	strb	r3, [fp, #-33]
-	b	.L5
-.L13:
-	ldrb	r3, [fp, #-33]	@ zero_extendqisi2
+	strb	r3, [fp, #-28]
+	b	.L3
+.L9:
+	ldrb	r3, [fp, #-28]	@ zero_extendqisi2
 	mov	r3, r3, asl #4
-	strh	r3, [fp, #-28]	@ movhi
-	ldrb	r3, [fp, #-33]
-	add	r3, r3, #3
-	strb	r3, [fp, #-26]
-	ldrb	r3, [fp, #-33]
-	sub	r3, r3, #2
-	and	r3, r3, #255
-	strb	r3, [fp, #-25]
-	ldrb	r3, [fp, #-26]
-	eor	r3, r3, #20
-	and	r3, r3, #255
-	mov	r2, r3
-	ldrb	r3, [fp, #-26]	@ zero_extendqisi2
-	cmp	r3, #19
-	movhi	r3, #0
-	movls	r3, #1
-	rsb	r3, r3, #0
-	and	r3, r3, #255
-	and	r3, r2, r3
-	and	r3, r3, #255
-	eor	r3, r3, #20
-	and	r3, r3, #255
-	and	r1, r3, #255
-	sub	r2, fp, #151552
-	str	r1, [r2, #-3892]
-	ldrsb	r3, [fp, #-25]
-	cmp	r3, #0
-	bge	.L6
-	mov	r1, #0
-	sub	r3, fp, #151552
-	str	r1, [r3, #-3904]
-	b	.L7
-.L6:
-	mov	r3, #255
-	sub	r2, fp, #151552
-	str	r3, [r2, #-3904]
-.L7:
-	sub	r1, fp, #154624
-	sub	r1, r1, #768
-	ldrb	r2, [r1, #-64]
-	ldrb	r3, [fp, #-25]
-	and	r3, r2, r3
-	and	r3, r3, #255
-	and	r2, r3, #255
-	sub	r1, fp, #151552
-	str	r2, [r1, #-3888]
-	mvn	r3, #0
 	strh	r3, [fp, #-24]	@ movhi
+	mvn	r3, #0
+	strh	r3, [fp, #-22]	@ movhi
 	mov	r3, #0
-	strb	r3, [fp, #-21]
-	sub	r2, fp, #154624
-	sub	r2, r2, #768
-	ldrb	r3, [r2, #-56]
-	strb	r3, [fp, #-20]
-	b	.L8
-.L12:
-	ldrb	r3, [fp, #-20]	@ zero_extendqisi2
+	strb	r3, [fp, #-19]
+	mov	r2, #0
+	sub	r1, fp, #151552
+	str	r2, [r1, #-2680]
+	b	.L4
+.L8:
+	sub	r0, fp, #151552
+	ldr	r3, [r0, #-2680]
 	mov	r3, r3, asl #4
 	strh	r3, [fp, #-18]	@ movhi
-	sub	r1, fp, #154624
-	sub	r1, r1, #768
-	ldrb	r3, [r1, #-48]
-	strb	r3, [fp, #-19]
-	b	.L9
-.L11:
-	ldrb	r3, [fp, #-19]	@ zero_extendqisi2
+	mov	r2, #0
+	sub	r1, fp, #151552
+	str	r2, [r1, #-2684]
+	b	.L5
+.L7:
+	sub	r0, fp, #151552
+	ldr	r3, [r0, #-2684]
 	mov	r3, r3, asl #4
 	strh	r3, [fp, #-16]	@ movhi
-	mov	r3, #0
-	strh	r3, [fp, #-14]	@ movhi
-	ldrh	r2, [fp, #-28]
-	ldrh	r1, [fp, #-32]
-	ldrh	ip, [fp, #-16]
-	ldrh	lr, [fp, #-18]
+	ldrh	r2, [fp, #-26]
+	ldrh	r1, [fp, #-24]
+	ldrh	ip, [fp, #-18]
+	ldrh	lr, [fp, #-16]
 	sub	r3, fp, #76800
 	sub	r3, r3, #12
-	sub	r3, r3, #22
+	sub	r3, r3, #16
 	str	r3, [sp, #0]
 	sub	r3, fp, #153600
 	sub	r3, r3, #12
-	sub	r3, r3, #22
+	sub	r3, r3, #16
 	str	r3, [sp, #4]
 	mov	r0, r2
 	mov	r2, ip
@@ -201,174 +107,148 @@ main:
 	mov	r3, r0
 	strh	r3, [fp, #-14]	@ movhi
 	ldrh	r2, [fp, #-14]
-	ldrh	r3, [fp, #-24]
+	ldrh	r3, [fp, #-22]
 	cmp	r2, r3
-	bcs	.L10
+	bcs	.L6
 	ldrh	r3, [fp, #-14]	@ movhi
-	strh	r3, [fp, #-24]	@ movhi
-	ldrb	r3, [fp, #-19]
-	strb	r3, [fp, #-22]
-	ldrb	r3, [fp, #-20]
-	strb	r3, [fp, #-21]
-.L10:
-	ldrb	r3, [fp, #-19]
-	add	r3, r3, #1
-	strb	r3, [fp, #-19]
-.L9:
-	ldrb	r3, [fp, #-19]	@ zero_extendqisi2
-	sub	r2, fp, #151552
-	ldr	r2, [r2, #-3892]
-	cmp	r3, r2
-	bcc	.L11
-	ldrb	r3, [fp, #-20]
-	add	r3, r3, #1
+	strh	r3, [fp, #-22]	@ movhi
+	sub	r1, fp, #153600
+	sub	r1, r1, #512
+	ldrb	r3, [r1, #-120]
 	strb	r3, [fp, #-20]
-.L8:
-	ldrb	r3, [fp, #-20]	@ zero_extendqisi2
-	sub	r1, fp, #151552
-	ldr	r1, [r1, #-3900]
-	cmp	r3, r1
-	bcc	.L12
-	ldrb	r2, [fp, #-34]	@ zero_extendqisi2
-	ldrb	r3, [fp, #-33]	@ zero_extendqisi2
-	ldrh	ip, [fp, #-24]
-	mvn	r0, #154624
-	sub	r0, r0, #796
-	sub	r0, r0, #1
-	mov	r3, r3, asl #1
-	mov	r1, r3, asl #2
-	rsb	r1, r3, r1
-	mov	r3, r2
-	mov	r2, r3, asl #3
-	mov	r3, r2, asl #4
-	rsb	r3, r2, r3
-	add	r3, r1, r3
-	sub	r2, fp, #12
-	add	r3, r2, r3
-	add	r3, r3, r0
-	strh	ip, [r3, #0]	@ movhi
-	ldrb	ip, [fp, #-34]	@ zero_extendqisi2
-	ldrb	r1, [fp, #-33]	@ zero_extendqisi2
-	ldrb	r2, [fp, #-22]	@ zero_extendqisi2
-	ldrb	r3, [fp, #-33]	@ zero_extendqisi2
+	sub	r2, fp, #153600
+	sub	r2, r2, #512
+	ldrb	r3, [r2, #-124]
+	strb	r3, [fp, #-19]
+.L6:
+	sub	r0, fp, #151552
+	ldr	r0, [r0, #-2684]
+	add	r3, r0, #1
+	and	r1, r3, #255
+	sub	r2, fp, #151552
+	str	r1, [r2, #-2684]
+.L5:
+	sub	r3, fp, #151552
+	ldr	r3, [r3, #-2684]
+	cmp	r3, #14
+	bls	.L7
+	sub	r0, fp, #151552
+	ldr	r0, [r0, #-2680]
+	add	r3, r0, #1
+	and	r1, r3, #255
+	sub	r2, fp, #151552
+	str	r1, [r2, #-2680]
+.L4:
+	sub	r3, fp, #151552
+	ldr	r3, [r3, #-2680]
+	cmp	r3, #19
+	bls	.L8
+	ldrb	r0, [fp, #-28]	@ zero_extendqisi2
+	ldrb	ip, [fp, #-27]	@ zero_extendqisi2
+	ldrb	r2, [fp, #-20]
+	ldrb	r3, [fp, #-27]
 	rsb	r3, r3, r2
-	mov	r3, r3, asl #16
-	mov	r3, r3, lsr #16
+	and	r3, r3, #255
 	mov	lr, r3
-	mvn	r0, #154624
-	sub	r0, r0, #796
-	sub	r0, r0, #1
-	mov	r4, #2
-	mov	r3, r1
+	mvn	r1, #153600
+	sub	r1, r1, #612
+	sub	r1, r1, #3
+	mov	r3, r0
+	mov	r3, r3, asl #2
+	mov	r2, r3, asl #2
+	add	r3, r3, r2
+	add	r3, r3, ip
 	mov	r3, r3, asl #1
-	mov	r1, r3, asl #2
-	rsb	r1, r3, r1
-	mov	r3, ip
-	mov	r2, r3, asl #3
-	mov	r3, r2, asl #4
-	rsb	r3, r2, r3
-	add	r3, r1, r3
-	sub	r1, fp, #12
-	add	r3, r1, r3
-	add	r3, r3, r0
-	add	r3, r3, r4
-	strh	lr, [r3, #0]	@ movhi
-	ldrb	ip, [fp, #-34]	@ zero_extendqisi2
-	ldrb	r1, [fp, #-33]	@ zero_extendqisi2
-	ldrb	r2, [fp, #-21]	@ zero_extendqisi2
-	ldrb	r3, [fp, #-34]	@ zero_extendqisi2
+	sub	r0, fp, #12
+	add	r3, r0, r3
+	add	r2, r3, r1
+	mov	r3, lr
+	strb	r3, [r2, #0]
+	ldrb	r0, [fp, #-28]	@ zero_extendqisi2
+	ldrb	ip, [fp, #-27]	@ zero_extendqisi2
+	ldrb	r2, [fp, #-19]
+	ldrb	r3, [fp, #-28]
 	rsb	r3, r3, r2
-	mov	r3, r3, asl #16
-	mov	r3, r3, lsr #16
+	and	r3, r3, #255
 	mov	lr, r3
-	mvn	r0, #154624
-	sub	r0, r0, #796
-	sub	r0, r0, #1
-	mov	r4, #4
-	mov	r3, r1
+	mvn	r1, #153600
+	sub	r1, r1, #612
+	sub	r1, r1, #3
+	mov	r3, r0
+	mov	r3, r3, asl #2
+	mov	r2, r3, asl #2
+	add	r3, r3, r2
+	add	r3, r3, ip
+	mov	r2, #1
 	mov	r3, r3, asl #1
-	mov	r1, r3, asl #2
-	rsb	r1, r3, r1
-	mov	r3, ip
-	mov	r2, r3, asl #3
-	mov	r3, r2, asl #4
-	rsb	r3, r2, r3
-	add	r3, r1, r3
+	sub	r0, fp, #12
+	add	r3, r0, r3
+	add	r3, r3, r1
+	add	r2, r3, r2
+	mov	r3, lr
+	strb	r3, [r2, #0]
+	ldrb	ip, [fp, #-28]	@ zero_extendqisi2
+	ldrb	lr, [fp, #-27]	@ zero_extendqisi2
+	ldrb	r3, [fp, #-28]	@ zero_extendqisi2
+	ldrb	r0, [fp, #-27]	@ zero_extendqisi2
+	mvn	r1, #153600
+	sub	r1, r1, #612
+	sub	r1, r1, #3
+	mov	r3, r3, asl #2
+	mov	r2, r3, asl #2
+	add	r3, r3, r2
+	add	r3, r3, r0
+	mov	r3, r3, asl #1
 	sub	r2, fp, #12
 	add	r3, r2, r3
+	add	r3, r3, r1
+	ldrb	r3, [r3, #0]	@ zero_extendqisi2
+	mov	r3, r3, asl #24
+	mov	r4, r3, asr #24
+	ldrb	r3, [fp, #-28]	@ zero_extendqisi2
+	ldrb	r0, [fp, #-27]	@ zero_extendqisi2
+	mvn	r1, #153600
+	sub	r1, r1, #612
+	sub	r1, r1, #3
+	mov	r3, r3, asl #2
+	mov	r2, r3, asl #2
+	add	r3, r3, r2
 	add	r3, r3, r0
-	add	r3, r3, r4
-	strh	lr, [r3, #0]	@ movhi
-	ldrb	ip, [fp, #-34]	@ zero_extendqisi2
-	ldrb	lr, [fp, #-33]	@ zero_extendqisi2
-	ldrb	r2, [fp, #-34]	@ zero_extendqisi2
-	ldrb	r3, [fp, #-33]	@ zero_extendqisi2
-	mvn	r0, #154624
-	sub	r0, r0, #796
-	sub	r0, r0, #1
-	mov	r4, #2
+	mov	r2, #1
 	mov	r3, r3, asl #1
-	mov	r1, r3, asl #2
-	rsb	r1, r3, r1
-	mov	r3, r2
-	mov	r2, r3, asl #3
-	mov	r3, r2, asl #4
-	rsb	r3, r2, r3
-	add	r3, r1, r3
-	sub	r1, fp, #12
-	add	r3, r1, r3
-	add	r3, r3, r0
-	add	r3, r3, r4
-	ldrh	r3, [r3, #0]
-	mov	r3, r3, asl #16
-	mov	r4, r3, asr #16
-	ldrb	r2, [fp, #-34]	@ zero_extendqisi2
-	ldrb	r3, [fp, #-33]	@ zero_extendqisi2
-	mvn	r0, #154624
-	sub	r0, r0, #796
-	sub	r0, r0, #1
-	mov	r5, #4
-	mov	r3, r3, asl #1
-	mov	r1, r3, asl #2
-	rsb	r1, r3, r1
-	mov	r3, r2
-	mov	r2, r3, asl #3
-	mov	r3, r2, asl #4
-	rsb	r3, r2, r3
-	add	r3, r1, r3
-	sub	r2, fp, #12
-	add	r3, r2, r3
-	add	r3, r3, r0
-	add	r3, r3, r5
-	ldrh	r3, [r3, #0]
-	mov	r3, r3, asl #16
-	mov	r3, r3, asr #16
+	sub	r0, fp, #12
+	add	r3, r0, r3
+	add	r3, r3, r1
+	add	r3, r3, r2
+	ldrb	r3, [r3, #0]	@ zero_extendqisi2
+	mov	r3, r3, asl #24
+	mov	r3, r3, asr #24
 	str	r3, [sp, #0]
-	ldr	r0, .L16+8
+	ldr	r0, .L12+8
 	mov	r1, ip
 	mov	r2, lr
 	mov	r3, r4
 	bl	printf
-	ldrb	r3, [fp, #-33]
+	ldrb	r3, [fp, #-28]
 	add	r3, r3, #1
-	strb	r3, [fp, #-33]
-.L5:
-	ldrb	r3, [fp, #-33]	@ zero_extendqisi2
-	cmp	r3, #19
-	bls	.L13
-	ldrb	r3, [fp, #-34]
-	add	r3, r3, #1
-	strb	r3, [fp, #-34]
-.L2:
-	ldrb	r3, [fp, #-34]	@ zero_extendqisi2
+	strb	r3, [fp, #-28]
+.L3:
+	ldrb	r3, [fp, #-28]	@ zero_extendqisi2
 	cmp	r3, #14
-	bls	.L14
-	sub	sp, fp, #12
-	ldmfd	sp!, {r4, r5, fp, lr}
+	bls	.L9
+	ldrb	r3, [fp, #-27]
+	add	r3, r3, #1
+	strb	r3, [fp, #-27]
+.L2:
+	ldrb	r3, [fp, #-27]	@ zero_extendqisi2
+	cmp	r3, #19
+	bls	.L10
+	sub	sp, fp, #8
+	ldmfd	sp!, {r4, fp, lr}
 	bx	lr
-.L17:
+.L13:
 	.align	2
-.L16:
+.L12:
 	.word	.LC0
 	.word	.LC1
 	.word	.LC2
@@ -390,7 +270,7 @@ readImage:
 	str	r0, [fp, #-40]
 	str	r1, [fp, #-44]
 	ldr	r0, [fp, #-40]
-	ldr	r1, .L24
+	ldr	r1, .L20
 	bl	fopen
 	mov	r3, r0
 	str	r3, [fp, #-24]
@@ -424,12 +304,12 @@ readImage:
 	str	r3, [fp, #-16]
 	mov	r3, #0
 	str	r3, [fp, #-12]
-	b	.L19
-.L22:
+	b	.L15
+.L18:
 	mov	r3, #0
 	str	r3, [fp, #-8]
-	b	.L20
-.L21:
+	b	.L16
+.L17:
 	ldr	r2, [fp, #-12]
 	ldr	r3, [fp, #-16]
 	mul	r1, r3, r2
@@ -460,279 +340,111 @@ readImage:
 	ldr	r3, [fp, #-8]
 	add	r3, r3, #1
 	str	r3, [fp, #-8]
-.L20:
+.L16:
 	ldr	r2, [fp, #-8]
 	mov	r3, #316
 	add	r3, r3, #3
 	cmp	r2, r3
-	bls	.L21
+	bls	.L17
 	ldr	r3, [fp, #-12]
 	add	r3, r3, #1
 	str	r3, [fp, #-12]
-.L19:
+.L15:
 	ldr	r3, [fp, #-12]
 	cmp	r3, #239
-	bls	.L22
+	bls	.L18
 	ldr	r0, [fp, #-24]
 	bl	fclose
 	sub	sp, fp, #4
 	ldmfd	sp!, {fp, lr}
 	bx	lr
-.L25:
+.L21:
 	.align	2
-.L24:
+.L20:
 	.word	.LC3
 	.size	readImage, .-readImage
 	.align	2
 	.type	calc_block_diff, %function
 calc_block_diff:
 	@ Function supports interworking.
-	@ args = 8, pretend = 0, frame = 48
+	@ args = 8, pretend = 0, frame = 16
 	@ frame_needed = 1, uses_anonymous_args = 0
 	@ link register save eliminated.
 	str	fp, [sp, #-4]!
 	add	fp, sp, #0
-	sub	sp, sp, #52
-	strh	r0, [fp, #-46]	@ movhi
-	strh	r1, [fp, #-48]	@ movhi
-	strh	r2, [fp, #-50]	@ movhi
-	strh	r3, [fp, #-52]	@ movhi
-	mov	r3, #0
-	strh	r3, [fp, #-42]	@ movhi
-	ldrh	r3, [fp, #-48]
-	mov	r2, r3, asl #6
-	mov	r3, r2, asl #2
-	add	r2, r2, r3
-	ldr	r3, [fp, #4]
-	add	r2, r3, r2
-	ldrh	r3, [fp, #-46]
-	ldrb	r3, [r2, r3]	@ zero_extendqisi2
-	strh	r3, [fp, #-40]	@ movhi
-	ldrh	r3, [fp, #-52]
-	mov	r2, r3, asl #6
-	mov	r3, r2, asl #2
-	add	r2, r2, r3
-	ldr	r3, [fp, #8]
-	add	r2, r3, r2
-	ldrh	r3, [fp, #-50]
-	ldrb	r3, [r2, r3]	@ zero_extendqisi2
-	strh	r3, [fp, #-38]	@ movhi
-	mov	r3, #0
-	strb	r3, [fp, #-36]
-	b	.L27
-.L30:
-	mov	r3, #0
-	str	r3, [fp, #-28]
-	b	.L28
-.L29:
-	ldrh	r2, [fp, #-38]
-	ldrh	r3, [fp, #-40]
-	rsb	r3, r3, r2
-	mov	r3, r3, asl #16
-	mov	r3, r3, lsr #16
-	strh	r3, [fp, #-16]	@ movhi
-	ldrsh	r3, [fp, #-16]
-	mov	r3, r3, asr #15
-	mov	r3, r3, asl #16
-	mov	r3, r3, lsr #16
-	strh	r3, [fp, #-12]	@ movhi
-	ldrh	r2, [fp, #-16]
-	ldrh	r3, [fp, #-12]	@ movhi
-	add	r3, r2, r3
-	mov	r3, r3, asl #16
-	mov	r3, r3, lsr #16
-	ldrh	r2, [fp, #-12]
-	mov	r1, r3	@ movhi
-	mov	r3, r2	@ movhi
-	eor	r3, r1, r3
-	mov	r3, r3, asl #16
-	mov	r3, r3, lsr #16
-	strh	r3, [fp, #-14]	@ movhi
-	ldrh	r2, [fp, #-42]	@ movhi
-	ldrh	r3, [fp, #-14]	@ movhi
-	add	r3, r2, r3
-	strh	r3, [fp, #-42]	@ movhi
-	ldr	r3, [fp, #-28]
-	add	r3, r3, #1
-	str	r3, [fp, #-28]
-	ldrh	r2, [fp, #-48]
-	ldrb	r3, [fp, #-36]	@ zero_extendqisi2
-	add	r3, r2, r3
-	mov	r2, r3, asl #6
-	mov	r3, r2, asl #2
-	add	r2, r2, r3
-	ldr	r3, [fp, #4]
-	add	r1, r3, r2
-	ldrh	r2, [fp, #-46]
-	ldr	r3, [fp, #-28]
-	add	r3, r2, r3
-	ldrb	r3, [r1, r3]	@ zero_extendqisi2
-	strh	r3, [fp, #-40]	@ movhi
-	ldrh	r2, [fp, #-52]
-	ldrb	r3, [fp, #-36]	@ zero_extendqisi2
-	add	r3, r2, r3
-	mov	r2, r3, asl #6
-	mov	r3, r2, asl #2
-	add	r2, r2, r3
-	ldr	r3, [fp, #8]
-	add	r1, r3, r2
-	ldrh	r2, [fp, #-50]
-	ldr	r3, [fp, #-28]
-	add	r3, r2, r3
-	ldrb	r3, [r1, r3]	@ zero_extendqisi2
-	strh	r3, [fp, #-38]	@ movhi
-.L28:
-	ldr	r3, [fp, #-28]
-	cmp	r3, #15
-	bne	.L29
-	ldrh	r2, [fp, #-38]
-	ldrh	r3, [fp, #-40]
-	rsb	r3, r3, r2
-	mov	r3, r3, asl #16
-	mov	r3, r3, lsr #16
-	strh	r3, [fp, #-22]	@ movhi
-	ldrsh	r3, [fp, #-22]
-	mov	r3, r3, asr #15
-	mov	r3, r3, asl #16
-	mov	r3, r3, lsr #16
-	strh	r3, [fp, #-18]	@ movhi
-	ldrh	r2, [fp, #-22]
-	ldrh	r3, [fp, #-18]	@ movhi
-	add	r3, r2, r3
-	mov	r3, r3, asl #16
-	mov	r3, r3, lsr #16
-	ldrh	r2, [fp, #-18]
-	mov	r1, r3	@ movhi
-	mov	r3, r2	@ movhi
-	eor	r3, r1, r3
-	mov	r3, r3, asl #16
-	mov	r3, r3, lsr #16
+	sub	sp, sp, #20
+	strh	r0, [fp, #-14]	@ movhi
+	strh	r1, [fp, #-16]	@ movhi
+	strh	r2, [fp, #-18]	@ movhi
 	strh	r3, [fp, #-20]	@ movhi
-	ldrh	r2, [fp, #-42]	@ movhi
-	ldrh	r3, [fp, #-20]	@ movhi
-	add	r3, r2, r3
-	strh	r3, [fp, #-42]	@ movhi
-	ldrb	r3, [fp, #-36]
-	add	r3, r3, #1
-	strb	r3, [fp, #-36]
-	ldrh	r2, [fp, #-48]
-	ldrb	r3, [fp, #-36]	@ zero_extendqisi2
-	add	r3, r2, r3
-	mov	r2, r3, asl #6
-	mov	r3, r2, asl #2
-	add	r2, r2, r3
-	ldr	r3, [fp, #4]
-	add	r2, r3, r2
-	ldrh	r3, [fp, #-46]
-	ldrb	r3, [r2, r3]	@ zero_extendqisi2
-	strh	r3, [fp, #-40]	@ movhi
-	ldrh	r2, [fp, #-52]
-	ldrb	r3, [fp, #-36]	@ zero_extendqisi2
+	mov	r3, #0
+	strh	r3, [fp, #-10]	@ movhi
+	mov	r3, #0
+	strb	r3, [fp, #-8]
+	b	.L23
+.L28:
+	mov	r3, #0
+	strb	r3, [fp, #-7]
+	b	.L24
+.L27:
+	ldrh	r2, [fp, #-20]
+	ldrb	r3, [fp, #-7]	@ zero_extendqisi2
 	add	r3, r2, r3
 	mov	r2, r3, asl #6
 	mov	r3, r2, asl #2
 	add	r2, r2, r3
 	ldr	r3, [fp, #8]
-	add	r2, r3, r2
-	ldrh	r3, [fp, #-50]
-	ldrb	r3, [r2, r3]	@ zero_extendqisi2
-	strh	r3, [fp, #-38]	@ movhi
-.L27:
-	ldrb	r3, [fp, #-36]	@ zero_extendqisi2
-	cmp	r3, #15
-	bne	.L30
-	mov	r3, #0
-	strb	r3, [fp, #-35]
-	b	.L31
-.L32:
-	ldrh	r2, [fp, #-38]
-	ldrh	r3, [fp, #-40]
-	rsb	r3, r3, r2
-	mov	r3, r3, asl #16
-	mov	r3, r3, lsr #16
-	strh	r3, [fp, #-10]	@ movhi
-	ldrsh	r3, [fp, #-10]
-	mov	r3, r3, asr #15
+	add	r1, r3, r2
+	ldrh	r2, [fp, #-18]
+	ldrb	r3, [fp, #-8]	@ zero_extendqisi2
+	add	r3, r2, r3
+	ldrb	r3, [r1, r3]	@ zero_extendqisi2
+	mov	r0, r3
+	ldrh	r2, [fp, #-16]
+	ldrb	r3, [fp, #-7]	@ zero_extendqisi2
+	add	r3, r2, r3
+	mov	r2, r3, asl #6
+	mov	r3, r2, asl #2
+	add	r2, r2, r3
+	ldr	r3, [fp, #4]
+	add	r1, r3, r2
+	ldrh	r2, [fp, #-14]
+	ldrb	r3, [fp, #-8]	@ zero_extendqisi2
+	add	r3, r2, r3
+	ldrb	r3, [r1, r3]	@ zero_extendqisi2
+	rsb	r3, r3, r0
 	mov	r3, r3, asl #16
 	mov	r3, r3, lsr #16
 	strh	r3, [fp, #-6]	@ movhi
-	ldrh	r2, [fp, #-10]
-	ldrh	r3, [fp, #-6]	@ movhi
-	add	r3, r2, r3
-	mov	r3, r3, asl #16
-	mov	r3, r3, lsr #16
-	ldrh	r2, [fp, #-6]
-	mov	r1, r3	@ movhi
-	mov	r3, r2	@ movhi
-	eor	r3, r1, r3
-	mov	r3, r3, asl #16
-	mov	r3, r3, lsr #16
-	strh	r3, [fp, #-8]	@ movhi
-	ldrh	r2, [fp, #-42]	@ movhi
-	ldrh	r3, [fp, #-8]	@ movhi
-	add	r3, r2, r3
-	strh	r3, [fp, #-42]	@ movhi
-	ldrb	r3, [fp, #-35]
-	add	r3, r3, #1
-	strb	r3, [fp, #-35]
-	ldrh	r2, [fp, #-48]
-	ldrb	r3, [fp, #-36]	@ zero_extendqisi2
-	add	r3, r2, r3
-	mov	r2, r3, asl #6
-	mov	r3, r2, asl #2
-	add	r2, r2, r3
-	ldr	r3, [fp, #4]
-	add	r1, r3, r2
-	ldrh	r2, [fp, #-46]
-	ldrb	r3, [fp, #-35]	@ zero_extendqisi2
-	add	r3, r2, r3
-	ldrb	r3, [r1, r3]	@ zero_extendqisi2
-	strh	r3, [fp, #-40]	@ movhi
-	ldrh	r2, [fp, #-52]
-	ldrb	r3, [fp, #-36]	@ zero_extendqisi2
-	add	r3, r2, r3
-	mov	r2, r3, asl #6
-	mov	r3, r2, asl #2
-	add	r2, r2, r3
-	ldr	r3, [fp, #8]
-	add	r1, r3, r2
-	ldrh	r2, [fp, #-50]
-	ldrb	r3, [fp, #-35]	@ zero_extendqisi2
-	add	r3, r2, r3
-	ldrb	r3, [r1, r3]	@ zero_extendqisi2
-	strh	r3, [fp, #-38]	@ movhi
-.L31:
-	ldrb	r3, [fp, #-35]	@ zero_extendqisi2
-	cmp	r3, #15
-	bne	.L32
-	ldrh	r2, [fp, #-38]
-	ldrh	r3, [fp, #-40]
+	ldrsh	r3, [fp, #-6]
+	cmp	r3, #0
+	bge	.L25
+	ldrh	r3, [fp, #-6]
+	ldrh	r2, [fp, #-10]	@ movhi
 	rsb	r3, r3, r2
-	mov	r3, r3, asl #16
-	mov	r3, r3, lsr #16
-	strh	r3, [fp, #-34]	@ movhi
-	ldrsh	r3, [fp, #-34]
-	mov	r3, r3, asr #15
-	mov	r3, r3, asl #16
-	mov	r3, r3, lsr #16
-	strh	r3, [fp, #-30]	@ movhi
-	ldrh	r2, [fp, #-34]
-	ldrh	r3, [fp, #-30]	@ movhi
-	add	r3, r2, r3
-	mov	r3, r3, asl #16
-	mov	r3, r3, lsr #16
-	ldrh	r2, [fp, #-30]
-	mov	r1, r3	@ movhi
-	mov	r3, r2	@ movhi
-	eor	r3, r1, r3
-	mov	r3, r3, asl #16
-	mov	r3, r3, lsr #16
-	strh	r3, [fp, #-32]	@ movhi
-	ldrh	r2, [fp, #-42]	@ movhi
-	ldrh	r3, [fp, #-32]	@ movhi
-	add	r3, r2, r3
-	strh	r3, [fp, #-42]	@ movhi
-	ldrh	r3, [fp, #-42]
+	strh	r3, [fp, #-10]	@ movhi
+	b	.L26
+.L25:
+	ldrh	r3, [fp, #-6]
+	ldrh	r2, [fp, #-10]	@ movhi
+	add	r3, r3, r2
+	strh	r3, [fp, #-10]	@ movhi
+.L26:
+	ldrb	r3, [fp, #-7]
+	add	r3, r3, #1
+	strb	r3, [fp, #-7]
+.L24:
+	ldrb	r3, [fp, #-7]	@ zero_extendqisi2
+	cmp	r3, #15
+	bls	.L27
+	ldrb	r3, [fp, #-8]
+	add	r3, r3, #1
+	strb	r3, [fp, #-8]
+.L23:
+	ldrb	r3, [fp, #-8]	@ zero_extendqisi2
+	cmp	r3, #15
+	bls	.L28
+	ldrh	r3, [fp, #-10]
 	mov	r0, r3
 	add	sp, fp, #0
 	ldmfd	sp!, {fp}
