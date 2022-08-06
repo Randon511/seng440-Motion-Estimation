@@ -23,7 +23,7 @@ static void readImage(char filename[], uint8_t pixels[HEIGHT][WIDTH])
     uint32_t bitsPerPixel;
     fseek(bmp, BITS_PER_PIXEL_OFFSET, SEEK_SET);
     fread(&bitsPerPixel, 2, 1, bmp);
-    uint32_t bytesPerPixel = bitsPerPixel / 8;
+    uint32_t bytesPerPixel = bitsPerPixel >> 3;
     uint32_t paddedRowSize = WIDTH * bytesPerPixel;
     // save pixel data to array
     uint32_t i,j;
@@ -81,7 +81,7 @@ int main(void)
 		if (y_first + 3 < 15) {
 			y_upper = y_first + 3;
 		}
-        int y_first_pixel = y_first * 16;
+        int y_first_pixel = y_first << 4;
         for (x_first = 0; x_first < 20; x_first++)
         { 
 			// limit the search x-range to vicinity 9 blocks
@@ -93,7 +93,7 @@ int main(void)
             if (x_first + 3 < 20){
                 x_upper = x_first + 3;
             }
-            int x_first_pixel = x_first * 16;
+            int x_first_pixel = x_first << 4;
             // Min SAD value for the current block
             int min_SAD = INT_MAX;
             // Block with the associated min SAD value
@@ -102,10 +102,10 @@ int main(void)
             int y_second, x_second;
             for (y_second = y_lower; y_second < y_upper; y_second++)
             {
-                int y_second_pixel = y_second * 16;
+                int y_second_pixel = y_second << 4;
                 for (x_second = x_lower; x_second < x_upper; x_second++)
                 {
-                    int x_second_pixel = x_second * 16;
+                    int x_second_pixel = x_second << 4;
                     // Calculate SAD value for pair of blocks
                     int SAD_temp = calc_block_diff(x_first_pixel, y_first_pixel, 
                                                     x_second_pixel, y_second_pixel, 
