@@ -116,4 +116,5 @@ int main(void)
                                                         min_SAD_vals[y_first][x_first][1], min_SAD_vals[y_first][x_first][2]);
         }
     }
+    return 0;
 }
