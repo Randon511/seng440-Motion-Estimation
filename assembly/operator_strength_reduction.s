@@ -8,7 +8,7 @@
 	.eabi_attribute 26, 2
 	.eabi_attribute 30, 6
 	.eabi_attribute 18, 4
-	.file	"mem_opt.c"
+	.file	"operator_strength_reduction.c"
 	.section	.rodata
 	.align	2
 .LC0:
@@ -136,11 +136,11 @@ calc_block_diff:
 	mov	r3, #0
 	str	r3, [fp, #-20]
 	mov	r3, #0
-	str	r3, [fp, #-12]
+	str	r3, [fp, #-16]
 	b	.L10
 .L15:
 	mov	r3, #0
-	str	r3, [fp, #-16]
+	str	r3, [fp, #-12]
 	b	.L11
 .L14:
 	ldr	r2, [fp, #-36]
@@ -184,18 +184,18 @@ calc_block_diff:
 	add	r3, r3, r2
 	str	r3, [fp, #-20]
 .L13:
-	ldr	r3, [fp, #-16]
-	add	r3, r3, #1
-	str	r3, [fp, #-16]
-.L11:
-	ldr	r3, [fp, #-16]
-	cmp	r3, #15
-	ble	.L14
 	ldr	r3, [fp, #-12]
 	add	r3, r3, #1
 	str	r3, [fp, #-12]
-.L10:
+.L11:
 	ldr	r3, [fp, #-12]
+	cmp	r3, #15
+	ble	.L14
+	ldr	r3, [fp, #-16]
+	add	r3, r3, #1
+	str	r3, [fp, #-16]
+.L10:
+	ldr	r3, [fp, #-16]
 	cmp	r3, #15
 	ble	.L15
 	ldr	r3, [fp, #-20]
@@ -245,17 +245,17 @@ main:
 	mov	r1, #0
 	bl	memset
 	mov	r3, #0
-	str	r3, [fp, #-60]
+	str	r3, [fp, #-56]
 	b	.L18
 .L26:
-	ldr	r3, [fp, #-60]
+	ldr	r3, [fp, #-56]
 	mov	r3, r3, asl #4
 	str	r3, [fp, #-52]
 	mov	r3, #0
-	str	r3, [fp, #-56]
+	str	r3, [fp, #-60]
 	b	.L19
 .L25:
-	ldr	r3, [fp, #-56]
+	ldr	r3, [fp, #-60]
 	mov	r3, r3, asl #4
 	str	r3, [fp, #-48]
 	mvn	r3, #-2147483648
@@ -263,17 +263,17 @@ main:
 	mov	r3, #0
 	str	r3, [fp, #-36]
 	mov	r3, #0
-	str	r3, [fp, #-32]
+	str	r3, [fp, #-28]
 	b	.L20
 .L24:
-	ldr	r3, [fp, #-32]
+	ldr	r3, [fp, #-28]
 	mov	r3, r3, asl #4
 	str	r3, [fp, #-24]
 	mov	r3, #0
-	str	r3, [fp, #-28]
+	str	r3, [fp, #-32]
 	b	.L21
 .L23:
-	ldr	r3, [fp, #-28]
+	ldr	r3, [fp, #-32]
 	mov	r3, r3, asl #4
 	str	r3, [fp, #-20]
 	sub	r3, fp, #76800
@@ -284,10 +284,10 @@ main:
 	sub	r3, r3, #12
 	sub	r3, r3, #48
 	str	r3, [sp, #4]
-	ldr	r0, [fp, #-48]
-	ldr	r1, [fp, #-52]
-	ldr	r2, [fp, #-20]
-	ldr	r3, [fp, #-24]
+	ldr	r0, [fp, #-52]
+	ldr	r1, [fp, #-48]
+	ldr	r2, [fp, #-24]
+	ldr	r3, [fp, #-20]
 	bl	calc_block_diff
 	mov	r3, r0
 	str	r3, [fp, #-16]
@@ -302,19 +302,19 @@ main:
 	ldr	r3, [fp, #-32]
 	str	r3, [fp, #-36]
 .L22:
-	ldr	r3, [fp, #-28]
-	add	r3, r3, #1
-	str	r3, [fp, #-28]
-.L21:
-	ldr	r3, [fp, #-28]
-	cmp	r3, #19
-	ble	.L23
 	ldr	r3, [fp, #-32]
 	add	r3, r3, #1
 	str	r3, [fp, #-32]
-.L20:
+.L21:
 	ldr	r3, [fp, #-32]
 	cmp	r3, #14
+	ble	.L23
+	ldr	r3, [fp, #-28]
+	add	r3, r3, #1
+	str	r3, [fp, #-28]
+.L20:
+	ldr	r3, [fp, #-28]
+	cmp	r3, #19
 	ble	.L24
 	ldr	r0, [fp, #-60]
 	ldr	ip, [fp, #-56]
@@ -354,19 +354,19 @@ main:
 	add	r3, r2, r3
 	add	r3, r3, r1
 	str	r4, [r3, #0]
-	ldr	r3, [fp, #-56]
-	add	r3, r3, #1
-	str	r3, [fp, #-56]
-.L19:
-	ldr	r3, [fp, #-56]
-	cmp	r3, #19
-	ble	.L25
 	ldr	r3, [fp, #-60]
 	add	r3, r3, #1
 	str	r3, [fp, #-60]
-.L18:
+.L19:
 	ldr	r3, [fp, #-60]
 	cmp	r3, #14
+	ble	.L25
+	ldr	r3, [fp, #-56]
+	add	r3, r3, #1
+	str	r3, [fp, #-56]
+.L18:
+	ldr	r3, [fp, #-56]
+	cmp	r3, #19
 	ble	.L26
 	mov	r3, #0
 	mov	r0, r3

@@ -211,29 +211,26 @@ calc_block_diff:
 	.align	2
 .LC2:
 	.ascii	"frame_2.bmp\000"
-	.align	2
-.LC3:
-	.ascii	"block [%i][%i] has motion vector (%i, %i)\012\000"
 	.text
 	.align	2
 	.global	main
 	.type	main, %function
 main:
 	@ Function supports interworking.
-	@ args = 0, pretend = 0, frame = 156072
+	@ args = 0, pretend = 0, frame = 156064
 	@ frame_needed = 1, uses_anonymous_args = 0
-	stmfd	sp!, {fp, lr}
-	add	fp, sp, #4
+	stmfd	sp!, {r4, fp, lr}
+	add	fp, sp, #8
 	sub	sp, sp, #155648
-	sub	sp, sp, #432
+	sub	sp, sp, #428
 	sub	r3, fp, #76800
-	sub	r3, r3, #4
+	sub	r3, r3, #12
 	sub	r3, r3, #64
 	ldr	r0, .L32
 	mov	r1, r3
 	bl	readImage
 	sub	r3, fp, #153600
-	sub	r3, r3, #4
+	sub	r3, r3, #12
 	sub	r3, r3, #64
 	ldr	r0, .L32+4
 	mov	r1, r3
@@ -241,131 +238,131 @@ main:
 	mvn	r3, #155648
 	sub	r3, r3, #412
 	sub	r3, r3, #3
-	sub	r2, fp, #4
+	sub	r2, fp, #12
 	add	r3, r2, r3
 	mov	r2, #2400
 	mov	r0, r3
 	mov	r1, #0
 	bl	memset
 	mov	r3, #0
-	str	r3, [fp, #-68]
+	str	r3, [fp, #-76]
 	b	.L18
 .L30:
 	mov	r3, #15
-	str	r3, [fp, #-60]
+	str	r3, [fp, #-68]
 	mov	r3, #0
-	str	r3, [fp, #-56]
-	ldr	r3, [fp, #-68]
+	str	r3, [fp, #-64]
+	ldr	r3, [fp, #-76]
 	sub	r3, r3, #2
 	cmp	r3, #0
 	ble	.L19
-	ldr	r3, [fp, #-68]
+	ldr	r3, [fp, #-76]
 	sub	r3, r3, #2
-	str	r3, [fp, #-56]
+	str	r3, [fp, #-64]
 .L19:
-	ldr	r3, [fp, #-68]
+	ldr	r3, [fp, #-76]
 	add	r3, r3, #3
 	cmp	r3, #14
 	bgt	.L20
-	ldr	r3, [fp, #-68]
+	ldr	r3, [fp, #-76]
 	add	r3, r3, #3
-	str	r3, [fp, #-60]
+	str	r3, [fp, #-68]
 .L20:
-	ldr	r3, [fp, #-68]
+	ldr	r3, [fp, #-76]
 	mov	r3, r3, asl #4
-	str	r3, [fp, #-52]
+	str	r3, [fp, #-60]
 	mov	r3, #0
-	str	r3, [fp, #-64]
+	str	r3, [fp, #-72]
 	b	.L21
 .L29:
 	mov	r3, #20
-	str	r3, [fp, #-48]
+	str	r3, [fp, #-56]
 	mov	r3, #0
-	str	r3, [fp, #-44]
-	ldr	r3, [fp, #-64]
+	str	r3, [fp, #-52]
+	ldr	r3, [fp, #-72]
 	sub	r3, r3, #2
 	cmp	r3, #0
 	ble	.L22
-	ldr	r3, [fp, #-64]
+	ldr	r3, [fp, #-72]
 	sub	r3, r3, #2
-	str	r3, [fp, #-44]
+	str	r3, [fp, #-52]
 .L22:
-	ldr	r3, [fp, #-64]
+	ldr	r3, [fp, #-72]
 	add	r3, r3, #3
 	cmp	r3, #19
 	bgt	.L23
-	ldr	r3, [fp, #-64]
+	ldr	r3, [fp, #-72]
 	add	r3, r3, #3
-	str	r3, [fp, #-48]
+	str	r3, [fp, #-56]
 .L23:
-	ldr	r3, [fp, #-64]
+	ldr	r3, [fp, #-72]
 	mov	r3, r3, asl #4
-	str	r3, [fp, #-40]
+	str	r3, [fp, #-48]
 	mvn	r3, #-2147483648
-	str	r3, [fp, #-36]
+	str	r3, [fp, #-44]
 	mov	r3, #0
-	str	r3, [fp, #-28]
-	ldr	r3, [fp, #-56]
-	str	r3, [fp, #-24]
+	str	r3, [fp, #-36]
+	ldr	r3, [fp, #-64]
+	str	r3, [fp, #-32]
 	b	.L24
 .L28:
-	ldr	r3, [fp, #-24]
+	ldr	r3, [fp, #-32]
 	mov	r3, r3, asl #4
-	str	r3, [fp, #-16]
-	ldr	r3, [fp, #-44]
-	str	r3, [fp, #-20]
+	str	r3, [fp, #-24]
+	ldr	r3, [fp, #-52]
+	str	r3, [fp, #-28]
 	b	.L25
 .L27:
-	ldr	r3, [fp, #-20]
+	ldr	r3, [fp, #-28]
 	mov	r3, r3, asl #4
-	str	r3, [fp, #-12]
+	str	r3, [fp, #-20]
 	sub	r3, fp, #76800
-	sub	r3, r3, #4
+	sub	r3, r3, #12
 	sub	r3, r3, #64
 	str	r3, [sp, #0]
 	sub	r3, fp, #153600
-	sub	r3, r3, #4
+	sub	r3, r3, #12
 	sub	r3, r3, #64
 	str	r3, [sp, #4]
-	ldr	r0, [fp, #-40]
-	ldr	r1, [fp, #-52]
-	ldr	r2, [fp, #-12]
-	ldr	r3, [fp, #-16]
+	ldr	r0, [fp, #-48]
+	ldr	r1, [fp, #-60]
+	ldr	r2, [fp, #-20]
+	ldr	r3, [fp, #-24]
 	bl	calc_block_diff
 	mov	r3, r0
-	str	r3, [fp, #-8]
-	ldr	r2, [fp, #-8]
-	ldr	r3, [fp, #-36]
+	str	r3, [fp, #-16]
+	ldr	r2, [fp, #-16]
+	ldr	r3, [fp, #-44]
 	cmp	r2, r3
 	bge	.L26
-	ldr	r3, [fp, #-8]
+	ldr	r3, [fp, #-16]
+	str	r3, [fp, #-44]
+	ldr	r3, [fp, #-28]
+	str	r3, [fp, #-40]
+	ldr	r3, [fp, #-32]
 	str	r3, [fp, #-36]
-	ldr	r3, [fp, #-20]
-	str	r3, [fp, #-32]
-	ldr	r3, [fp, #-24]
-	str	r3, [fp, #-28]
 .L26:
-	ldr	r3, [fp, #-20]
+	ldr	r3, [fp, #-28]
 	add	r3, r3, #1
-	str	r3, [fp, #-20]
+	str	r3, [fp, #-28]
 .L25:
-	ldr	r2, [fp, #-20]
-	ldr	r3, [fp, #-48]
+	ldr	r2, [fp, #-28]
+	ldr	r3, [fp, #-56]
 	cmp	r2, r3
 	blt	.L27
-	ldr	r3, [fp, #-24]
+	ldr	r3, [fp, #-32]
 	add	r3, r3, #1
-	str	r3, [fp, #-24]
+	str	r3, [fp, #-32]
 .L24:
-	ldr	r2, [fp, #-24]
-	ldr	r3, [fp, #-60]
+	ldr	r2, [fp, #-32]
+	ldr	r3, [fp, #-68]
 	cmp	r2, r3
 	blt	.L28
-	ldr	r0, [fp, #-68]
-	ldr	ip, [fp, #-64]
-	ldr	r2, [fp, #-32]
-	ldr	r3, [fp, #-64]
-	rsb	lr, r3, r2
+	ldr	r0, [fp, #-76]
+	ldr	ip, [fp, #-72]
+	ldr	r2, [fp, #-40]
+	ldr	r3, [fp, #-72]
+	rsb	r4, r3, r2
 	mvn	r1, #155648
 	sub	r1, r1, #412
 	sub	r1, r1, #3
@@ -375,15 +372,15 @@ main:
 	add	r3, r3, r2
 	add	r3, r3, ip
 	mov	r3, r3, asl #3
-	sub	r2, fp, #4
+	sub	r2, fp, #12
 	add	r3, r2, r3
 	add	r3, r3, r1
-	str	lr, [r3, #0]
-	ldr	r0, [fp, #-68]
-	ldr	ip, [fp, #-64]
-	ldr	r2, [fp, #-28]
-	ldr	r3, [fp, #-68]
-	rsb	lr, r3, r2
+	str	r4, [r3, #0]
+	ldr	r0, [fp, #-76]
+	ldr	ip, [fp, #-72]
+	ldr	r2, [fp, #-36]
+	ldr	r3, [fp, #-76]
+	rsb	r4, r3, r2
 	mvn	r1, #155648
 	sub	r1, r1, #412
 	sub	r1, r1, #3
@@ -395,69 +392,34 @@ main:
 	mov	r3, r3, asl #1
 	add	r3, r3, #1
 	mov	r3, r3, asl #2
-	sub	r2, fp, #4
+	sub	r2, fp, #12
 	add	r3, r2, r3
 	add	r3, r3, r1
-	str	lr, [r3, #0]
-	ldr	r3, [fp, #-68]
-	ldr	r0, [fp, #-64]
-	mvn	r1, #155648
-	sub	r1, r1, #412
-	sub	r1, r1, #3
-	mov	r3, r3, asl #2
-	mov	r2, r3, asl #2
-	add	r3, r3, r2
-	add	r3, r3, r0
-	mov	r3, r3, asl #3
-	sub	r2, fp, #4
-	add	r3, r2, r3
-	add	r3, r3, r1
-	ldr	ip, [r3, #0]
-	ldr	r3, [fp, #-68]
-	ldr	r0, [fp, #-64]
-	mvn	r1, #155648
-	sub	r1, r1, #412
-	sub	r1, r1, #3
-	mov	r3, r3, asl #2
-	mov	r2, r3, asl #2
-	add	r3, r3, r2
-	add	r3, r3, r0
-	mov	r3, r3, asl #1
+	str	r4, [r3, #0]
+	ldr	r3, [fp, #-72]
 	add	r3, r3, #1
-	mov	r3, r3, asl #2
-	sub	r2, fp, #4
-	add	r3, r2, r3
-	add	r3, r3, r1
-	ldr	r3, [r3, #0]
-	str	r3, [sp, #0]
-	ldr	r0, .L32+8
-	ldr	r1, [fp, #-68]
-	ldr	r2, [fp, #-64]
-	mov	r3, ip
-	bl	printf
-	ldr	r3, [fp, #-64]
-	add	r3, r3, #1
-	str	r3, [fp, #-64]
+	str	r3, [fp, #-72]
 .L21:
-	ldr	r3, [fp, #-64]
+	ldr	r3, [fp, #-72]
 	cmp	r3, #19
 	ble	.L29
-	ldr	r3, [fp, #-68]
+	ldr	r3, [fp, #-76]
 	add	r3, r3, #1
-	str	r3, [fp, #-68]
+	str	r3, [fp, #-76]
 .L18:
-	ldr	r3, [fp, #-68]
+	ldr	r3, [fp, #-76]
 	cmp	r3, #14
 	ble	.L30
-	sub	sp, fp, #4
-	ldmfd	sp!, {fp, lr}
+	mov	r3, #0
+	mov	r0, r3
+	sub	sp, fp, #8
+	ldmfd	sp!, {r4, fp, lr}
 	bx	lr
 .L33:
 	.align	2
 .L32:
 	.word	.LC1
 	.word	.LC2
-	.word	.LC3
 	.size	main, .-main
 	.ident	"GCC: (Sourcery G++ Lite 2008q3-72) 4.3.2"
 	.section	.note.GNU-stack,"",%progbits
