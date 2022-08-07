@@ -1,7 +1,7 @@
 /*
 This code contains some extra general optimization techniques: register spilling, replace int with uint8_t and uint16_t where is applicable
 */
-
+#include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <time.h>
@@ -40,28 +40,36 @@ static inline void readImage(char filename[], uint8_t pixels[HEIGHT][WIDTH])
     fclose(bmp);
 }
 
-static inline uint16_t calc_block_diff(register uint16_t x_first_pixel, register uint16_t y_first_pixel, 
-                                        register  uint16_t x_second_pixel, register uint16_t y_second_pixel, 
+static inline uint16_t calc_block_diff(uint8_t x_first_pixel, uint8_t y_first_pixel, 
+                                        uint8_t x_second_pixel, uint8_t y_second_pixel, 
                                         uint8_t image_first[HEIGHT][WIDTH], uint8_t image_second[HEIGHT][WIDTH])
 {   
     register uint16_t SAD_temp = 0;
-    register uint8_t x, y;
+    register uint8_t y;
     for (y = 0; y < 16; y++)
     {
         uint8_t * img_second_y = *(image_second + y_second_pixel + y);
         uint8_t * img_first_y = *(image_first + y_first_pixel + y);
-        for (x = 0; x < 16; x++)
-        {
-            int16_t diff = *(img_second_y + x_second_pixel + x) - *(img_first_y + x_first_pixel + x);
-            if (diff < 0)
-            {
-                SAD_temp -= diff;
-            }
-            else
-            {
-                SAD_temp += diff;
-            }
-        }
+
+        uint8_t * base_first = img_first_y + x_first_pixel;
+        uint8_t * base_second = img_second_y + x_second_pixel;
+
+        SAD_temp += abs(*(base_second) - *(base_first)) +
+                    abs(*(base_second + 1) - *(base_first + 1)) +
+                    abs(*(base_second + 2) - *(base_first + 2)) +
+                    abs(*(base_second + 3) - *(base_first + 3)) +
+                    abs(*(base_second + 4) - *(base_first + 4)) +
+                    abs(*(base_second + 5) - *(base_first + 5)) +
+                    abs(*(base_second + 6) - *(base_first + 6)) +
+                    abs(*(base_second + 7) - *(base_first + 7)) +
+                    abs(*(base_second + 8) - *(base_first + 8)) +
+                    abs(*(base_second + 9) - *(base_first + 9)) +
+                    abs(*(base_second + 10) - *(base_first + 10)) +
+                    abs(*(base_second + 11) - *(base_first + 11)) +
+                    abs(*(base_second + 12) - *(base_first + 12)) +
+                    abs(*(base_second + 13) - *(base_first + 13)) +
+                    abs(*(base_second + 14) - *(base_first + 14)) +
+                    abs(*(base_second + 15) - *(base_first + 15));
     }
     return SAD_temp;
 }
@@ -78,10 +86,10 @@ int main(void)
     // For each 16x16 block in first image
     for (x_first = 0; x_first < 20; x_first++)
     {
-        register uint16_t x_first_pixel = x_first << 4;
+        register uint8_t x_first_pixel = x_first << 4;
         for (y_first = 0; y_first < 15; y_first++)
         { 
-            register uint16_t y_first_pixel = y_first << 4;
+            register uint8_t y_first_pixel = y_first << 4;
             // Min SAD value for the current block
             uint16_t min_SAD = UINT16_T_MAX;
             // Block with the associated min SAD value
@@ -90,10 +98,10 @@ int main(void)
             uint8_t y_second, x_second;
             for (x_second = 0; x_second < 20; x_second++)
             {
-                register uint16_t x_second_pixel = x_second << 4;
+                register uint8_t x_second_pixel = x_second << 4;
                 for (y_second = 0; y_second < 15; y_second++)
                 {
-                    uint16_t y_second_pixel = y_second << 4;
+                    uint8_t y_second_pixel = y_second << 4;
                     // Calculate SAD value for pair of blocks
                     uint16_t SAD_temp = calc_block_diff(x_first_pixel, y_first_pixel, 
                                                     x_second_pixel, y_second_pixel, 
