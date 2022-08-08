@@ -319,47 +319,47 @@ calc_block_diff:
 	strb	r3, [fp, #-13]
 	b	.L23
 .L24:
-	ldr	r1, [fp, #4]
+	ldr	r1, [fp, #4]		; address of image_first
 	ldrh	r2, [fp, #-24]	; y_first_pixel
 	ldrb	r3, [fp, #-13]	@ zero_extendqisi2	; y
-	add	r3, r2, r3
-	mov	r2, r3, asl #6
-	mov	r3, r2, asl #2
-	add	r2, r2, r3
-	ldrh	r3, [fp, #-22]
-	add	r3, r2, r3
-	add	r3, r1, r3
-	str	r3, [fp, #-12]
-	ldr	r1, [fp, #8]
-	ldrh	r2, [fp, #-28]
-	ldrb	r3, [fp, #-13]	@ zero_extendqisi2
-	add	r3, r2, r3
-	mov	r2, r3, asl #6
-	mov	r3, r2, asl #2
-	add	r2, r2, r3
-	ldrh	r3, [fp, #-26]
-	add	r3, r2, r3
-	add	r3, r1, r3
-	str	r3, [fp, #-8]
-	ldr	r3, [fp, #-8]
+	add	r3, r2, r3			; r3 = y_first_pixel + y
+	mov	r2, r3, asl #6		; r2 = (y_first_pixel + y)*64
+	mov	r3, r2, asl #2		; r3 = (y_first_pixel + y)*64*4
+	add	r2, r2, r3			; r2 = (y_first_pixel + y)*320
+	ldrh	r3, [fp, #-22]	; x_first_pixel
+	add	r3, r2, r3			; r3 = (y_first_pixel + y)*320 + x_first_pixel
+	add	r3, r1, r3			; image_first[y_first_pixel + y][x_first_pixel]
+	str	r3, [fp, #-12]		; base_first
+	ldr	r1, [fp, #8]		; address of image_second
+	ldrh	r2, [fp, #-28]	; y_second_pixel
+	ldrb	r3, [fp, #-13]	@ zero_extendqisi2	; y
+	add	r3, r2, r3			; y_second_pixel + y
+	mov	r2, r3, asl #6		; r2 = (y_second_pixel + y)*64
+	mov	r3, r2, asl #2		; r3 = (y_second_pixel + y)*64*4
+	add	r2, r2, r3			; r2 = (y_second_pixel + y)*320
+	ldrh	r3, [fp, #-26]	; x_second_pixel
+	add	r3, r2, r3			; r3 = (y_second_pixel + y)*320 + x_second_pixel
+	add	r3, r1, r3			; image_second[y_second_pixel + y][x_second_pixel]
+	str	r3, [fp, #-8]		; base_second
+	ldr	r3, [fp, #-8]		; unnecesary load instruction
 	ldrb	r3, [r3, #0]	@ zero_extendqisi2
-	mov	r2, r3
-	ldr	r3, [fp, #-12]
+	mov	r2, r3				; r2 = base_second
+	ldr	r3, [fp, #-12]		; r3 = base_first
 	ldrb	r3, [r3, #0]	@ zero_extendqisi2
-	rsb	r3, r3, r2
-	cmp	r3, #0
-	rsblt	r3, r3, #0
-	mov	r3, r3, asl #16
+	rsb	r3, r3, r2			; r3 = *(base_second) - *(base_first)
+	cmp	r3, #0				
+	rsblt	r3, r3, #0		; r3 = 0 - r3 if r3 negative
+	mov	r3, r3, asl #16		
 	mov	r1, r3, lsr #16
-	ldr	r3, [fp, #-8]
-	add	r3, r3, #1
+	ldr	r3, [fp, #-8]		;  base_second
+	add	r3, r3, #1			; r3 = base_second + 1
 	ldrb	r3, [r3, #0]	@ zero_extendqisi2
-	mov	r2, r3
-	ldr	r3, [fp, #-12]
-	add	r3, r3, #1
+	mov	r2, r3				; r2 = base_second + 1
+	ldr	r3, [fp, #-12]		; base_first
+	add	r3, r3, #1			; r3 = base_first + 1
 	ldrb	r3, [r3, #0]	@ zero_extendqisi2
-	rsb	r3, r3, r2
-	cmp	r3, #0
+	rsb	r3, r3, r2			; r3 = *(base_second + 1) - *(base_first + 1)
+	cmp	r3, #0				
 	rsblt	r3, r3, #0
 	mov	r3, r3, asl #16
 	mov	r3, r3, lsr #16

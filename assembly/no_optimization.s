@@ -169,7 +169,7 @@ calc_block_diff:
 	add	r3, r2, r3		; r3 = x_first_pixel + x
 	ldrb	r3, [r1, r3]	@ zero_extendqisi2	; r3 = image_first[y_first_pixel + y][x_first_pixel + x]
 	rsb	r3, r3, r0		; r3 = diff
-	str	r3, [fp, #-8]
+	str	r3, [fp, #-8]	; store diff
 	ldr	r3, [fp, #-8]
 	cmp	r3, #0
 	bge	.L12
@@ -179,10 +179,10 @@ calc_block_diff:
 	str	r3, [fp, #-20]
 	b	.L13
 .L12:
-	ldr	r3, [fp, #-20]
-	ldr	r2, [fp, #-8]
-	add	r3, r3, r2
-	str	r3, [fp, #-20]
+	ldr	r3, [fp, #-20]	; load SAD_temp
+	ldr	r2, [fp, #-8]	; load diff
+	add	r3, r3, r2		; SAD_temp += diff
+	str	r3, [fp, #-20]	; store SAD_temp
 .L13:
 	ldr	r3, [fp, #-12]
 	add	r3, r3, #1
