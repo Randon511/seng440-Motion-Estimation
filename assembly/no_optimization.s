@@ -143,32 +143,32 @@ calc_block_diff:
 	str	r3, [fp, #-12]
 	b	.L11
 .L14:
-	ldr	r2, [fp, #-36]
-	ldr	r3, [fp, #-12]
-	add	r3, r2, r3
-	mov	r2, r3, asl #6
-	mov	r3, r2, asl #2
-	add	r2, r2, r3
-	ldr	r3, [fp, #8]
-	add	r1, r3, r2
-	ldr	r2, [fp, #-32]
-	ldr	r3, [fp, #-16]
-	add	r3, r2, r3
-	ldrb	r3, [r1, r3]	@ zero_extendqisi2
-	mov	r0, r3
-	ldr	r2, [fp, #-28]
-	ldr	r3, [fp, #-12]
-	add	r3, r2, r3
-	mov	r2, r3, asl #6
-	mov	r3, r2, asl #2
-	add	r2, r2, r3
-	ldr	r3, [fp, #4]
-	add	r1, r3, r2
-	ldr	r2, [fp, #-24]
-	ldr	r3, [fp, #-16]
-	add	r3, r2, r3
-	ldrb	r3, [r1, r3]	@ zero_extendqisi2
-	rsb	r3, r3, r0
+	ldr	r2, [fp, #-36]	; y_second_pixel
+	ldr	r3, [fp, #-12]	; y
+	add	r3, r2, r3		; r3 = y_second_pixel + y
+	mov	r2, r3, asl #6	; r2 = (y_second_pixel + y)*64
+	mov	r3, r2, asl #2	; r3 = (y_second_pixel + y)*64*4
+	add	r2, r2, r3		; r2 = (y_second_pixel + y)*320
+	ldr	r3, [fp, #8]	; r3 = address of image_second
+	add	r1, r3, r2		; r1 = image_second[y_second_pixel + y]
+	ldr	r2, [fp, #-32]	; x_second_pixel
+	ldr	r3, [fp, #-16]	; x
+	add	r3, r2, r3		; r3 = x_second_pixel + x
+	ldrb	r3, [r1, r3]	@ zero_extendqisi2	; r3 = image_second[y_second_pixel + y][x_second_pixel + x]
+	mov	r0, r3			; r0 = image_second[y_second_pixel + y][x_second_pixel + x]
+	ldr	r2, [fp, #-28]	; y_first_pixel
+	ldr	r3, [fp, #-12]	; y
+	add	r3, r2, r3		; r3 = y_first_pixel + y
+	mov	r2, r3, asl #6	; r2 = (y_first_pixel + y)*64
+	mov	r3, r2, asl #2	; r3 = (y_first_pixel + y)*64*4
+	add	r2, r2, r3		; r2 = (y_first_pixel + y)*320
+	ldr	r3, [fp, #4]	; r3 = address of image_first
+	add	r1, r3, r2		; r1 = image_first[y_first_pixel + y]
+	ldr	r2, [fp, #-24]	; x_first_pixel
+	ldr	r3, [fp, #-16]	; x
+	add	r3, r2, r3		; r3 = x_first_pixel + x
+	ldrb	r3, [r1, r3]	@ zero_extendqisi2	; r3 = image_first[y_first_pixel + y][x_first_pixel + x]
+	rsb	r3, r3, r0		; r3 = diff
 	str	r3, [fp, #-8]
 	ldr	r3, [fp, #-8]
 	cmp	r3, #0
