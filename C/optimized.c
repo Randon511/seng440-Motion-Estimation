@@ -79,7 +79,7 @@ int main(void)
     uint8_t image_first[HEIGHT][WIDTH];
     uint8_t image_second[HEIGHT][WIDTH];
     readImage("frame_1.bmp", image_first);
-    readImage("frame_1.bmp", image_second);
+    readImage("frame_2.bmp", image_second);
     int8_t min_SAD_vals[15][20][2] = {};
     uint8_t y_first, x_first;
     // For each 16x16 block in first image
@@ -137,9 +137,9 @@ int main(void)
             // s for the block with the min SAD value
             min_SAD_vals[y_first][x_first][1] = min_y - y_first;
             //Print the r and s corresponding to the smallest SAD for current block
-            // printf("block [%i][%i] has motion vector (%i, %i)\n", y_first, x_first, 
-            //                                              min_SAD_vals[y_first][x_first][0], 
-            //                                              min_SAD_vals[y_first][x_first][1]);
+			printf("block [%i][%i] has motion vector (%i, %i)\n", y_first, x_first, 
+			                                             min_SAD_vals[y_first][x_first][0], 
+			                                             min_SAD_vals[y_first][x_first][1]);
         }
     }
     return 0;

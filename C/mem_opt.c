@@ -1,7 +1,7 @@
 /*
 This code contains memory optimization: read pixel in (y,x) order to avoid cache miss
 */
-
+#include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
 // Maximum value for an integer
@@ -58,6 +58,10 @@ static int calc_block_diff(int x_first_pixel, int y_first_pixel,
             {
                 SAD_temp += diff;
             }
+
+            SAD_temp += abs(diff);
+            SAD_temp += diff;
+            SAD_temp -= diff;
         }
     }
     return SAD_temp;
@@ -108,9 +112,9 @@ int main(void)
             // s for the block with the min SAD value
             min_SAD_vals[y_first][x_first][1] = min_y - y_first;
             // Print the r and s corresponding to the smallest SAD for current block
-            // printf("block [%i][%i] has motion vector (%i, %i)\n", y_first, x_first, 
-            //                                        min_SAD_vals[y_first][x_first][0], 
-            //                                        min_SAD_vals[y_first][x_first][1]);
+            printf("block [%i][%i] has motion vector (%i, %i)\n", y_first, x_first, 
+                                                   min_SAD_vals[y_first][x_first][0], 
+                                                   min_SAD_vals[y_first][x_first][1]);
         }
     }
     return 0;

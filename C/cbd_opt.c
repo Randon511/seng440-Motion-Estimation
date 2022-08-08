@@ -111,17 +111,17 @@ int main(void)
                         min_SAD = SAD_temp;
                         min_x = x_second;
                         min_y = y_second;
-                    }   
+                    } 
                 }
             }
             // r for the block with the min SAD value
             min_SAD_vals[y_first][x_first][0] = min_x - x_first;
             // s for the block with the min SAD value
             min_SAD_vals[y_first][x_first][1] = min_y - y_first;
-            // Print the r and s corresponding to the smallest SAD for current block
-            // printf("block [%i][%i] has motion vector (%i, %i)\n", y_first, x_first, 
-            //                                             min_SAD_vals[y_first][x_first][0], 
-            //                                             min_SAD_vals[y_first][x_first][1]);
+            //Print the r and s corresponding to the smallest SAD for current block
+            printf("block [%i][%i] has motion vector (%i, %i)\n", y_first, x_first, 
+                                                        min_SAD_vals[y_first][x_first][0], 
+                                                        min_SAD_vals[y_first][x_first][1]);
         }
     }
     return 0;
