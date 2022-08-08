@@ -44,8 +44,8 @@ static inline uint16_t calc_block_diff(uint16_t x_first_pixel, uint16_t y_first_
                                         uint16_t x_second_pixel, uint16_t y_second_pixel, 
                                         uint8_t image_first[HEIGHT][WIDTH], uint8_t image_second[HEIGHT][WIDTH])
 {   
-    register uint16_t SAD_temp = 0;
-    register uint8_t y;
+    uint16_t SAD_temp = 0;
+    uint8_t y;
 
     for (y = 0; y < 16; y++)
     {
@@ -81,7 +81,7 @@ int main(void)
     readImage("frame_1.bmp", image_first);
     readImage("frame_1.bmp", image_second);
     int8_t min_SAD_vals[15][20][2] = {};
-    register uint8_t y_first, x_first;
+    uint8_t y_first, x_first;
     // For each 16x16 block in first image
     for (y_first = 0; y_first < 15; y_first++)
     {
@@ -105,7 +105,7 @@ int main(void)
             if (x_first + 3 < 20){
                 x_upper = x_first + 3;
             }
-            register uint16_t x_first_pixel = x_first << 4;
+            uint16_t x_first_pixel = x_first << 4;
 
             // Min SAD value for the current block
             uint16_t min_SAD = UINT16_T_MAX;
@@ -115,10 +115,10 @@ int main(void)
             uint8_t y_second, x_second;
             for (y_second = y_lower; y_second < y_upper; y_second++)
             {
-                register uint16_t y_second_pixel = y_second << 4;
+                uint16_t y_second_pixel = y_second << 4;
                 for (x_second = x_lower; x_second < x_upper; x_second++)
                 {
-                    register uint16_t x_second_pixel = x_second << 4;
+                    uint16_t x_second_pixel = x_second << 4;
                     // Calculate SAD value for pair of blocks
                     uint16_t SAD_temp = calc_block_diff(x_first_pixel, y_first_pixel, 
                                                     x_second_pixel, y_second_pixel, 
