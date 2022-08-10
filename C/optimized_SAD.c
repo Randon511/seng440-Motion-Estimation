@@ -45,8 +45,8 @@ static inline uint16_t calc_block_diff(uint16_t x_first_pixel, uint16_t y_first_
                                         uint8_t image_first[HEIGHT][WIDTH], uint8_t image_second[HEIGHT][WIDTH])
 {   
     uint16_t SAD_temp = 0;
-    uint8_t y;
-
+    register int y, Rs1, Rs2, Rt;
+    __asm__ ( "RESET_SAD %1, %2, %0" : " = r " ( Rt ) : " r " ( Rs1 ) , " r " ( Rs2 ) ) ;
     for (y = 0; y < 16; y++)
     {
         uint8_t * base_first = &image_first[y_first_pixel + y][x_first_pixel];
