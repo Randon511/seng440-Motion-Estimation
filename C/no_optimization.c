@@ -45,11 +45,12 @@ static int calc_block_diff(int x_first_pixel, int y_first_pixel,
 {
     int SAD_temp = 0;
     int x, y;
-    for (x = 0; x < 16; x++)
+    for (y = 0; y < 16; y++)
     {
-        for (y = 0; y < 16; y++)
+        for (x = 0; x < 16; x++)
         {
-            int diff = image_second[y_second_pixel + y][x_second_pixel + x] - image_first[y_first_pixel + y][x_first_pixel + x];
+            int diff = image_second[y_second_pixel + y][x_second_pixel + x] - 
+                       image_first[y_first_pixel + y][x_first_pixel + x];
             if (diff < 0)
             {
                 SAD_temp -= diff;
